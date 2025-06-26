@@ -52,8 +52,11 @@ function convertToInteractiveChecklist(markdown) {
     // First, parse checkbox states from the raw markdown before marked.js processes it
     parseCheckboxStates(markdown);
     
+    // Clean the checkbox syntax from the markdown before processing
+    const cleanedMarkdown = cleanCheckboxSyntax(markdown);
+    
     // Parse markdown and convert list items to interactive checkboxes
-    let html = marked.parse(markdown);
+    let html = marked.parse(cleanedMarkdown);
     let taskId = 0;
     
     // Make headers collapsible (h2, h3, h4)
@@ -115,6 +118,19 @@ function parseCheckboxStates(markdown) {
             taskId++;
         }
     }
+}
+
+function cleanCheckboxSyntax(markdown) {
+    const lines = markdown.split('\n');
+    const cleanedLines = [];
+    
+    for (const line of lines) {
+        // Remove checkbox syntax from list items
+        const cleaned = line.replace(/^(\s*[-*+]\s*)\[([ x])\]\s*/, '$1');
+        cleanedLines.push(cleaned);
+    }
+    
+    return cleanedLines.join('\n');
 }
 
 function toggleInputPanel() {
