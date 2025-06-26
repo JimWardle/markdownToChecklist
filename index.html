@@ -56,6 +56,30 @@
             border-right: 1px solid #e0e0e0;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .input-panel.minimized {
+            flex: 0 0 auto;
+            width: 50px;
+        }
+
+        .input-panel.minimized .textarea-container {
+            display: none;
+        }
+
+        .input-panel.minimized .panel-header {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            padding: 20px 15px;
+        }
+
+        .input-panel.minimized .panel-title {
+            transform: rotate(180deg);
+        }
+
+        .input-panel.minimized .mode-toggle {
+            display: none;
         }
 
         .output-panel {
@@ -71,12 +95,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .panel-header:hover {
+            background: #f0f0f0;
         }
 
         .panel-title {
             font-size: 1rem;
             font-weight: 600;
             color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+
+        .minimize-icon {
+            margin-left: 8px;
+            font-size: 0.8em;
+            color: #666;
+            transition: transform 0.3s ease;
+        }
+
+        .input-panel.minimized .minimize-icon {
+            transform: rotate(180deg);
         }
 
         .mode-toggle {
@@ -407,9 +450,12 @@
         </div>
         
         <div class="main-content">
-            <div class="input-panel">
-                <div class="panel-header">
-                    <div class="panel-title">Markdown Input</div>
+            <div class="input-panel" id="inputPanel">
+                <div class="panel-header" onclick="toggleInputPanel()">
+                    <div class="panel-title">
+                        Markdown Input
+                        <span class="minimize-icon">◀</span>
+                    </div>
                     <div class="mode-toggle">
                         <button class="mode-btn active" data-mode="checklist">Checklist</button>
                         <button class="mode-btn" data-mode="markdown">Preview</button>
@@ -546,6 +592,11 @@ Example:
             });
 
             return html;
+        }
+
+        function toggleInputPanel() {
+            const inputPanel = document.getElementById('inputPanel');
+            inputPanel.classList.toggle('minimized');
         }
 
         function toggleSection(headerId) {
