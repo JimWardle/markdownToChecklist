@@ -421,6 +421,21 @@
                 border-bottom: 1px solid #e0e0e0;
             }
 
+            .input-panel.minimized {
+                width: auto;
+                flex: 0 0 auto;
+            }
+
+            .input-panel.minimized .panel-header {
+                writing-mode: initial;
+                text-orientation: initial;
+                padding: 15px 20px;
+            }
+
+            .input-panel.minimized .panel-title {
+                transform: none;
+            }
+
             .controls {
                 flex-direction: column;
             }
@@ -700,34 +715,26 @@ Example:
         }
 
         function loadSampleData() {
-            const sampleMarkdown = `# Certificate & Secret Expiry Report
-*Generated from Teams monitoring bot data*
+            const sampleMarkdown = `# My Project Tasks
 
-## Immediate Action Required (Next 7 Days)
+## High Priority
+- Complete the presentation slides
+- Review the quarterly report
+- Schedule team meeting
 
-### App Registration Secrets - Expiring 29-30 June 2025
-- **mercuryxteam-Mercury Data Practice** (2f6bd491-2caf-488f-afa4-9dcf92b98bf9) - 29/06/2025
-- **MercuryTestAutomation-Test** - 29/06/2025
-- **test bot (Microsoft Copilot Studio)** certificate - 30/06/2025
+## Medium Priority  
+- Update documentation
+- Test new features
+- Code review for pull request #42
 
-## Critical - Next 14 Days (July 1-4, 2025)
+## Low Priority
+- Organize workspace
+- Plan next sprint
+- Update project timeline
 
-### Power Virtual Agents Bot Certificates - 01/07/2025
-- **Project Service Power Virtual Agents Bot** (KeyId: 0268f907-b166-4f9e-adda-76379949cb0e)
-- **Customer Service Copilot Bot** (KeyId: 58af2d67-1f9d-4773-9667-0fbb7819af76)
-- **Mercury Project bot** (KeyId: a2b1c3f4-f989-46de-9e9e-0c38cb32a78a)
-
-### Key Vault Certificates
-- **auth-wearehotlist-com** (DevOps Prod KeyVault) - 02/07/2025
-- **MercuryIntegration-Test** - 03/07/2025
-- **Portals-Site 1** certificate - 04/07/2025
-
-## Action Items
-
-- Immediate: Renew all secrets expiring in next 7 days
-- This week: Address all Power Virtual Agents certificates expiring 01/07/2025
-- Investigate: Already expired SSL certificates on production VMs
-- Schedule: Bulk renewal process for September 2025 Power Virtual Agents certificates`;
+## Completed
+- Initial project setup
+- Requirements gathering`;
 
             document.getElementById('markdownInput').value = sampleMarkdown;
             taskData = {};
