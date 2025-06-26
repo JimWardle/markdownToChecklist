@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Markdown Checklist Tool</title>
+    <meta name="description" content="Learn about the Markdown Checklist tool - why it was built, how it works, and what makes it different from other task management solutions.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✔️</text></svg>">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+            color: #444;
+        }
+        
+        .content h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .content h2 {
+            color: #34495e;
+            margin: 30px 0 15px 0;
+            border-bottom: 1px solid #ecf0f1;
+            padding-bottom: 5px;
+        }
+        
+        .content p {
+            margin-bottom: 20px;
+        }
+        
+        .content ul {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .content li {
+            margin: 8px 0;
+        }
+        
+        .nav-links {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .nav-links a {
+            margin: 0 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .cta-section {
+            background: #f0f8ff;
+            padding: 30px;
+            text-align: center;
+            margin: 40px 0;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .cta-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="nav">
+                <a href="index.html" class="nav-link">Tool</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <a href="examples.html" class="nav-link">Examples</a>
+            </div>
+            <h1>About Markdown Checklist</h1>
+            <p>The story behind a simple solution to a common problem</p>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html">← Back to Tool</a>
+            <a href="examples.html">View Examples</a>
+        </div>
+        
+        <div class="content">
+            <h1>Why This Tool Exists</h1>
+            
+            <p>This tool was born from frustration with messy operational reports. You know the type - certificate expiry lists from monitoring bots, Teams alerts about renewals, or any other markdown dump that you need to work through systematically but can't easily track progress on.</p>
+            
+            <p>The problem was simple: you'd get a long markdown list of tasks (like certificate renewals), paste it into Notepad++ or OneNote, and then... what? No way to tick things off, no progress tracking, no ability to focus on specific sections.</p>
+            
+            <h2>What Makes It Different</h2>
+            
+            <p>Most existing tools fall into two camps:</p>
+            
+            <ul>
+                <li><strong>Complex project management tools</strong> - Great for creating new projects, but overkill when you just want to work through an existing list</li>
+                <li><strong>Visual checklist designers</strong> - Perfect for creating printable checklists, but not designed for operational data you already have</li>
+            </ul>
+            
+            <p>This tool sits in the sweet spot between them. It's specifically designed for taking existing markdown content and making it actionable.</p>
+            
+            <h2>Privacy-First Design</h2>
+            
+            <p>Everything happens in your browser. No accounts, no servers processing your data, no analytics tracking what you paste. This matters when you're working with sensitive operational data like certificate details, server configurations, or internal documentation.</p>
+            
+            <p>You can literally disconnect from the internet after the page loads and it'll still work perfectly.</p>
+            
+            <h2>Built for Real Work</h2>
+            
+            <p>The features evolved from actual usage:</p>
+            
+            <ul>
+                <li><strong>Collapsible headers</strong> - Because you need to focus on "Critical - Next 7 Days" without being distracted by "Low Priority - Next Quarter"</li>
+                <li><strong>Minimizable input panel</strong> - Once you've pasted your content, get it out of the way and focus on the work</li>
+                <li><strong>Progress tracking</strong> - See how much you've accomplished and what's left</li>
+                <li><strong>Session persistence</strong> - Your progress survives page refreshes (until you close the browser)</li>
+            </ul>
+            
+            <h2>Technical Philosophy</h2>
+            
+            <p>This is intentionally a simple, single-purpose tool. No frameworks, no build process, no complexity. Just HTML, CSS, and JavaScript that does exactly what it says on the tin.</p>
+            
+            <p>It's fast, works offline, and you can easily save a copy locally if you want your own version.</p>
+            
+            <h2>Common Use Cases</h2>
+            
+            <p>While it started with certificate renewal lists, people use it for:</p>
+            
+            <ul>
+                <li>Operational runbooks and checklists</li>
+                <li>Project task lists from markdown documentation</li>
+                <li>Meeting action items</li>
+                <li>System maintenance procedures</li>
+                <li>Code review checklists</li>
+                <li>Travel or event planning lists</li>
+            </ul>
+            
+            <div class="cta-section">
+                <h3>Ready to try it?</h3>
+                <p>Turn your next markdown list into an interactive checklist</p>
+                <a href="index.html" class="btn">Try the Tool</a>
+            </div>
+            
+            <h2>Open Source</h2>
+            
+            <p>The code is straightforward and available to view, modify, or contribute to. Found a bug? Have an idea for improvement? Contributions welcome.</p>
+            
+            <p>Built by <a href="https://jameswardle.me">James Wardle</a> - a DevOps engineer who got tired of working through certificate renewal lists in text editors.</p>
+        </div>
+        
+        <div class="privacy-notice">
+            <p><strong>Privacy:</strong> All content stays in your browser - nothing is sent to external servers. Safe for sensitive data.</p>
+        </div>
+    </div>
+</body>
+</html>

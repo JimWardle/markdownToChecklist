@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples - Markdown Checklist Tool</title>
+    <meta name="description" content="See real-world examples of using the Markdown Checklist tool for operational tasks, project management, and system administration.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✔️</text></svg>">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+            color: #444;
+        }
+        
+        .content h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .content h2 {
+            color: #34495e;
+            margin: 40px 0 20px 0;
+            border-bottom: 1px solid #ecf0f1;
+            padding-bottom: 5px;
+        }
+        
+        .content p {
+            margin-bottom: 20px;
+        }
+        
+        .nav-links {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .nav-links a {
+            margin: 0 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .example {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .example-header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .example-description {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .example-code {
+            background: #fafafa;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        
+        .try-button {
+            text-align: center;
+            padding: 15px;
+            background: #f0f8ff;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-copy {
+            background: #27ae60;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            margin-left: 10px;
+        }
+        
+        .btn-copy:hover {
+            background: #229954;
+        }
+        
+        .use-case {
+            background: #e8f5e8;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-left: 4px solid #27ae60;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .use-case h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="nav">
+                <a href="index.html" class="nav-link">Tool</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="examples.html" class="nav-link active">Examples</a>
+            </div>
+            <h1>Examples & Use Cases</h1>
+            <p>See how the Markdown Checklist tool works with real-world scenarios</p>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html">← Back to Tool</a>
+            <a href="about.html">About</a>
+        </div>
+        
+        <div class="content">
+            <h1>Real-World Examples</h1>
+            
+            <p>Here are some practical examples showing how to use the Markdown Checklist tool for different types of operational and project tasks.</p>
+            
+            <div class="example">
+                <div class="example-header">System Maintenance Checklist</div>
+                <div class="example-description">
+                    <p>Perfect for monthly server maintenance tasks or system updates. The collapsible sections help you focus on critical tasks first.</p>
+                </div>
+                <div class="example-code"># Monthly Server Maintenance - January 2025
+
+## Critical (Downtime Required)
+- Restart database servers during maintenance window
+- Apply security patches to web servers
+- Update SSL certificates on load balancers
+- Backup configuration files before changes
+
+## Standard Maintenance  
+- Clean up old log files (>30 days)
+- Check disk space on all servers
+- Update monitoring agent versions
+- Review and rotate API keys
+- Test backup restoration process
+
+## Optional (Time Permitting)
+- Update documentation for new procedures
+- Review user access permissions
+- Clean up unused Docker images
+- Optimize database indexes</div>
+                <div class="try-button">
+                    <a href="index.html" class="btn">Try This Example</a>
+                    <button class="btn btn-copy" onclick="copyToClipboard('maintenance')">Copy Markdown</button>
+                </div>
+            </div>
+
+            <div class="example">
+                <div class="example-header">Project Launch Checklist</div>
+                <div class="example-description">
+                    <p>Track all the moving parts of a project launch. Great for ensuring nothing gets missed in the final sprint.</p>
+                </div>
+                <div class="example-code"># Project Phoenix - Go Live Checklist
+
+## Pre-Launch (Week Before)
+- Complete final security review
+- Load test production environment
+- Prepare rollback procedures
+- Brief customer support team
+- Schedule social media announcements
+
+## Launch Day
+- Deploy application to production
+- Update DNS records
+- Enable monitoring alerts
+- Send launch announcement email
+- Monitor system performance for first 2 hours
+
+## Post-Launch (First Week)
+- Collect user feedback
+- Monitor error rates and performance
+- Create post-launch retrospective notes
+- Update project documentation
+- Plan first iteration improvements</div>
+                <div class="try-button">
+                    <a href="index.html" class="btn">Try This Example</a>
+                    <button class="btn btn-copy" onclick="copyToClipboard('project')">Copy Markdown</button>
+                </div>
+            </div>
+
+            <div class="example">
+                <div class="example-header">Security Incident Response</div>
+                <div class="example-description">
+                    <p>When security incidents happen, having a clear checklist helps ensure nothing is missed during high-stress situations.</p>
+                </div>
+                <div class="example-code"># Security Incident Response - Ticket #SEC-2025-001
+
+## Immediate Response (First 30 Minutes)
+- Isolate affected systems from network
+- Preserve logs and evidence
+- Notify security team and management
+- Document timeline of events
+- Assess scope of potential data exposure
+
+## Investigation Phase
+- Analyze system logs for attack vectors
+- Check for additional compromised systems
+- Interview users who reported the incident
+- Document all findings with timestamps
+- Coordinate with law enforcement if required
+
+## Recovery and Lessons Learned
+- Implement additional security controls
+- Update incident response procedures
+- Conduct post-incident review meeting
+- Communicate resolution to stakeholders
+- Update security awareness training</div>
+                <div class="try-button">
+                    <a href="index.html" class="btn">Try This Example</a>
+                    <button class="btn btn-copy" onclick="copyToClipboard('security')">Copy Markdown</button>
+                </div>
+            </div>
+
+            <div class="example">
+                <div class="example-header">Code Review Checklist</div>
+                <div class="example-description">
+                    <p>Ensure consistent code quality by working through a standardized review process for each pull request.</p>
+                </div>
+                <div class="example-code"># Code Review Checklist - PR #247
+
+## Functionality
+- Code implements the requested feature correctly
+- Edge cases are handled appropriately
+- Error handling is comprehensive
+- Performance impact is acceptable
+
+## Code Quality
+- Code follows team style guidelines
+- Functions and variables have clear names
+- Comments explain complex logic
+- No unnecessary code duplication
+- Security best practices are followed
+
+## Testing
+- Unit tests cover new functionality
+- Integration tests pass
+- Manual testing completed
+- No regression in existing functionality
+
+## Documentation
+- README updated if needed
+- API documentation reflects changes
+- Changelog entry added
+- Deployment notes included if required</div>
+                <div class="try-button">
+                    <a href="index.html" class="btn">Try This Example</a>
+                    <button class="btn btn-copy" onclick="copyToClipboard('codereview')">Copy Markdown</button>
+                </div>
+            </div>
+
+            <div class="use-case">
+                <h4>💡 Pro Tip: Certificate Renewals</h4>
+                <p>This tool was originally built for managing certificate expiry reports from monitoring systems. Paste in your certificate renewal list, collapse the sections you're not working on, and tick off renewals as you complete them.</p>
+            </div>
+
+            <div class="use-case">
+                <h4>⚡ Quick Start</h4>
+                <p>Already have a markdown list? Just paste it into the tool and start checking things off. The progress bar will show your completion rate, and you can minimize the input panel to focus on getting work done.</p>
+            </div>
+
+            <div class="use-case">
+                <h4>🔒 Privacy First</h4>
+                <p>All examples above can contain sensitive operational data. Everything stays in your browser - no servers, no accounts, no tracking. Perfect for internal runbooks and security procedures.</p>
+            </div>
+
+            <h2>Your Use Case</h2>
+            
+            <p>Got a different use case? The tool works with any markdown list. Common patterns that work well:</p>
+            
+            <ul>
+                <li><strong>Operational runbooks</strong> - Step-by-step procedures</li>
+                <li><strong>Meeting action items</strong> - Track follow-ups from meetings</li>
+                <li><strong>Travel checklists</strong> - Don't forget anything important</li>
+                <li><strong>Event planning</strong> - All the details that need coordinating</li>
+                <li><strong>Onboarding tasks</strong> - New employee or client setup</li>
+                <li><strong>Compliance audits</strong> - Track completion of audit requirements</li>
+            </ul>
+
+            <p>The key is having tasks organized with markdown headers - the tool makes everything collapsible and interactive.</p>
+        </div>
+        
+        <div class="privacy-notice">
+            <p><strong>Privacy:</strong> All content stays in your browser - nothing is sent to external servers. Safe for sensitive data.</p>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(exampleType) {
+            const examples = {
+                maintenance: `# Monthly Server Maintenance - January 2025
+
+## Critical (Downtime Required)
+- Restart database servers during maintenance window
+- Apply security patches to web servers
+- Update SSL certificates on load balancers
+- Backup configuration files before changes
+
+## Standard Maintenance  
+- Clean up old log files (>30 days)
+- Check disk space on all servers
+- Update monitoring agent versions
+- Review and rotate API keys
+- Test backup restoration process
+
+## Optional (Time Permitting)
+- Update documentation for new procedures
+- Review user access permissions
+- Clean up unused Docker images
+- Optimize database indexes`,
+
+                project: `# Project Phoenix - Go Live Checklist
+
+## Pre-Launch (Week Before)
+- Complete final security review
+- Load test production environment
+- Prepare rollback procedures
+- Brief customer support team
+- Schedule social media announcements
+
+## Launch Day
+- Deploy application to production
+- Update DNS records
+- Enable monitoring alerts
+- Send launch announcement email
+- Monitor system performance for first 2 hours
+
+## Post-Launch (First Week)
+- Collect user feedback
+- Monitor error rates and performance
+- Create post-launch retrospective notes
+- Update project documentation
+- Plan first iteration improvements`,
+
+                security: `# Security Incident Response - Ticket #SEC-2025-001
+
+## Immediate Response (First 30 Minutes)
+- Isolate affected systems from network
+- Preserve logs and evidence
+- Notify security team and management
+- Document timeline of events
+- Assess scope of potential data exposure
+
+## Investigation Phase
+- Analyze system logs for attack vectors
+- Check for additional compromised systems
+- Interview users who reported the incident
+- Document all findings with timestamps
+- Coordinate with law enforcement if required
+
+## Recovery and Lessons Learned
+- Implement additional security controls
+- Update incident response procedures
+- Conduct post-incident review meeting
+- Communicate resolution to stakeholders
+- Update security awareness training`,
+
+                codereview: `# Code Review Checklist - PR #247
+
+## Functionality
+- Code implements the requested feature correctly
+- Edge cases are handled appropriately
+- Error handling is comprehensive
+- Performance impact is acceptable
+
+## Code Quality
+- Code follows team style guidelines
+- Functions and variables have clear names
+- Comments explain complex logic
+- No unnecessary code duplication
+- Security best practices are followed
+
+## Testing
+- Unit tests cover new functionality
+- Integration tests pass
+- Manual testing completed
+- No regression in existing functionality
+
+## Documentation
+- README updated if needed
+- API documentation reflects changes
+- Changelog entry added
+- Deployment notes included if required`
+            };
+
+            navigator.clipboard.writeText(examples[exampleType]).then(() => {
+                // Visual feedback
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = '#27ae60';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#27ae60';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                alert('Please manually copy the markdown from the example above');
+            });
+        }
+    </script>
+</body>
+</html>
