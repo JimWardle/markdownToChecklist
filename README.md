@@ -19,6 +19,7 @@ Particularly useful for:
 
 - **Interactive checklists** - Any markdown list item becomes a tickable checkbox
 - **Save Progress** - Export your current state as markdown with completed items marked as `[x]` to resume later. When you paste the saved markdown back in, the tool automatically detects and restores your progress
+- **Sticky controls** - Essential buttons (Save Progress, Clear All, etc.) are always accessible at the bottom of the screen
 - **Collapsible sections** - Click headers to collapse/expand sections for better focus on what matters right now
 - **Progress tracking** - Shows completion stats and progress bar so you know exactly where you stand
 - **Minimizable input** - Hide the markdown panel once you've pasted your content and focus on the actual work
@@ -41,13 +42,13 @@ The app handles standard markdown formatting whilst converting any list items (s
 
 ```
 /
-├── index.html          # Main application
-├── about.html          # About page explaining the tool
+├── index.html          # Main application with sticky controls
+├── about.html          # About page with Buy Me a Coffee support option
 ├── examples.html       # Real-world usage examples
 ├── css/
-│   └── styles.css      # All styling
+│   └── styles.css      # All styling including responsive footer
 ├── js/
-│   └── app.js          # Application logic
+│   └── app.js          # Application logic with progress parsing
 └── README.md           # This file
 ```
 
@@ -96,5 +97,7 @@ Tested on Chrome, Firefox, Safari, and Edge.
 ## Contributing
 
 The code is straightforward and contributions are welcome. Found a bug? Have an idea for improvement? Feel free to open an issue or submit a pull request.
+
+If this tool has saved you time on operational tasks, consider [supporting the project](https://www.buymeacoffee.com/jameswardle) to help keep it free and ad-free.
 
 Built by [James Wardle](https://jameswardle.me) - a DevOps engineer who got tired of working through certificate renewal lists in text editors and decided to fix the problem properly.
