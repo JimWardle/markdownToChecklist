@@ -235,13 +235,13 @@ function convertToProgressMarkdown(originalMarkdown) {
     let taskId = 0;
     
     for (const line of lines) {
-        // Check if this line is a list item
-        const listMatch = line.match(/^(\s*)([-*+]\s+)(.+)$/);
+        // Check if this line is a list item (with or without existing checkbox syntax)
+        const listMatch = line.match(/^(\s*)([-*+]\s*)(?:\[([ x])\]\s*)?(.+)$/);
         
         if (listMatch) {
             const indent = listMatch[1];
             const bullet = listMatch[2];
-            const content = listMatch[3];
+            const content = listMatch[4]; // Skip the checkbox part, just get the content
             const currentTaskId = `task-${taskId++}`;
             const isCompleted = taskData[currentTaskId] || false;
             
