@@ -82,6 +82,7 @@ Example:
         
         <div class="controls">
             <button class="btn btn-primary" onclick="loadSampleData()">Load Sample</button>
+            <button class="btn btn-secondary" onclick="saveProgress()">Save Progress</button>
             <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
             <button class="btn btn-secondary" onclick="resetProgress()">Reset Progress</button>
             <button class="btn btn-danger" onclick="clearCompleted()">Clear Completed</button>
@@ -89,6 +90,24 @@ Example:
         
         <div class="privacy-notice">
             <p><strong>Privacy:</strong> All content stays in your browser - nothing is sent to external servers. Safe for sensitive data.</p>
+        </div>
+    </div>
+
+    <!-- Save Progress Modal -->
+    <div id="saveModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Save Progress as Markdown</h3>
+                <button class="close-btn" onclick="closeSaveModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Copy this markdown to resume your progress in a new session:</p>
+                <textarea id="saveTextarea" class="modal-textarea" readonly></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="copyToClipboard()">Copy to Clipboard</button>
+                <button class="btn btn-secondary" onclick="closeSaveModal()">Close</button>
+            </div>
         </div>
     </div>
 

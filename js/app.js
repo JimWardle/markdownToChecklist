@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up input event listener
     document.getElementById('markdownInput').addEventListener('input', function() {
         updateOutput();
-        saveProgress();
+        saveSessionProgress();
     });
 
     // Set up mode toggle
@@ -124,7 +124,7 @@ function addEventListeners() {
             }
             
             updateStats();
-            saveProgress();
+            saveSessionProgress();
         });
     });
 }
@@ -172,6 +172,97 @@ function updateStats() {
 }
 
 function saveProgress() {
+    const input = document.getElementById('markdownInput').value.trim();
+    
+    if (!input) {
+        alert('No content to save. Please add some markdown first.');
+        return;
+    }
+
+    // Convert current state back to markdown with checkboxes
+    const progressMarkdown = convertToProgressMarkdown(input);
+    
+    // Show modal with the markdown
+    document.getElementById('saveTextarea').value = progressMarkdown;
+    document.getElementById('saveModal').classList.add('show');
+}
+
+function convertToProgressMarkdown(originalMarkdown) {
+    const lines = originalMarkdown.split('\n');
+    const result = [];
+    let taskId = 0;
+    
+    for (const line of lines) {
+        // Check if this line is a list item
+        const listMatch = line.match(/^(\s*)([-*+]\s+)(.+)$/);
+        
+        if (listMatch) {
+            const indent = listMatch[1];
+            const bullet = listMatch[2];
+            const content = listMatch[3];
+            const currentTaskId = `task-${taskId++}`;
+            const isCompleted = taskData[currentTaskId] || false;
+            
+            // Convert to checkbox format
+            const checkbox = isCompleted ? '[x]' : '[ ]';
+            result.push(`${indent}- ${checkbox} ${content}`);
+        } else {
+            // Keep non-list lines as they are
+            result.push(line);
+        }
+    }
+    
+    return result.join('\n');
+}
+
+function closeSaveModal() {
+    document.getElementById('saveModal').classList.remove('show');
+}
+
+function copyToClipboard() {
+    const textarea = document.getElementById('saveTextarea');
+    textarea.select();
+    textarea.setSelectionRange(0, 99999); // For mobile devices
+    
+    try {
+        navigator.clipboard.writeText(textarea.value).then(() => {
+            // Visual feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            button.style.background = '#27ae60';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '#27ae60';
+            }, 2000);
+        }).catch(() => {
+            // Fallback for older browsers
+            document.execCommand('copy');
+            alert('Progress copied to clipboard!');
+        });
+    } catch (err) {
+        // Final fallback
+        alert('Please manually copy the text above');
+    }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('saveModal');
+    if (event.target === modal) {
+        closeSaveModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeSaveModal();
+    }
+});
+
+function loadProgress() {
     const data = {
         markdown: document.getElementById('markdownInput').value,
         tasks: taskData
@@ -193,6 +284,19 @@ function loadProgress() {
         }
     } catch (e) {
         console.log('Progress loading not available in this environment');
+    }
+}
+
+function saveSessionProgress() {
+    const data = {
+        markdown: document.getElementById('markdownInput').value,
+        tasks: taskData
+    };
+    try {
+        // Using a simple variable instead of localStorage for Claude.ai compatibility
+        window.savedProgress = data;
+    } catch (e) {
+        console.log('Progress saving not available in this environment');
     }
 }
 
@@ -221,7 +325,7 @@ function loadSampleData() {
     document.getElementById('markdownInput').value = sampleMarkdown;
     taskData = {};
     updateOutput();
-    saveProgress();
+    saveSessionProgress();
 }
 
 function clearAll() {
@@ -229,7 +333,7 @@ function clearAll() {
         document.getElementById('markdownInput').value = '';
         taskData = {};
         updateOutput();
-        saveProgress();
+        saveSessionProgress();
     }
 }
 
@@ -237,7 +341,7 @@ function resetProgress() {
     if (confirm('Reset all task progress?')) {
         taskData = {};
         updateOutput();
-        saveProgress();
+        saveSessionProgress();
     }
 }
 
@@ -281,6 +385,6 @@ function clearCompleted() {
         
         taskData = newTaskData;
         updateOutput();
-        saveProgress();
+        saveSessionProgress();
     }
 }
