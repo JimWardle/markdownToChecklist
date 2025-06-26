@@ -391,7 +391,7 @@ body {
 
 .privacy-notice {
     position: fixed;
-    bottom: 60px;
+    bottom: 90px;
     left: 0;
     right: 0;
     padding: 8px 20px;
@@ -407,9 +407,36 @@ body {
     margin: 0;
 }
 
+.footer {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    padding: 8px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+    z-index: 98;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
 /* Add bottom padding to container to prevent content being hidden behind fixed controls */
 .container {
-    padding-bottom: 100px;
+    padding-bottom: 130px;
 }
 
 .btn {
@@ -487,6 +514,12 @@ body {
     }
     
     .privacy-notice {
+        bottom: 80px;
+        padding: 6px 15px;
+        font-size: 0.75rem;
+    }
+    
+    .footer {
         bottom: 50px;
         padding: 6px 15px;
         font-size: 0.75rem;
