@@ -49,6 +49,9 @@ function updateOutput() {
 }
 
 function convertToInteractiveChecklist(markdown) {
+    // First, parse checkbox states from the raw markdown before marked.js processes it
+    parseCheckboxStates(markdown);
+    
     // Parse markdown and convert list items to interactive checkboxes
     let html = marked.parse(markdown);
     let taskId = 0;
@@ -76,35 +79,42 @@ function convertToInteractiveChecklist(markdown) {
     // Replace list items with interactive checkboxes
     html = html.replace(/<li>(.*?)<\/li>/gs, function(match, content) {
         const currentTaskId = `task-${taskId++}`;
-        
-        // Check if the content has existing checkbox syntax
-        const checkboxMatch = content.match(/^\s*\[([ x])\]\s*(.*)$/);
-        let isCompleted = false;
-        let displayText = content;
-        
-        if (checkboxMatch) {
-            // Found checkbox syntax - extract state and clean text
-            isCompleted = checkboxMatch[1].toLowerCase() === 'x';
-            displayText = checkboxMatch[2];
-            // Update taskData with the parsed state
-            taskData[currentTaskId] = isCompleted;
-        } else {
-            // No checkbox syntax - use existing state or default to false
-            isCompleted = taskData[currentTaskId] || false;
-        }
-        
+        const isCompleted = taskData[currentTaskId] || false;
         const checkedAttr = isCompleted ? 'checked' : '';
         const completedClass = isCompleted ? 'completed' : '';
         
         return `
             <div class="task-item ${completedClass}" data-task-id="${currentTaskId}">
                 <input type="checkbox" class="task-checkbox" ${checkedAttr}>
-                <span class="task-text">${displayText}</span>
+                <span class="task-text">${content}</span>
             </div>
         `;
     });
 
     return html;
+}
+
+function parseCheckboxStates(markdown) {
+    const lines = markdown.split('\n');
+    let taskId = 0;
+    
+    for (const line of lines) {
+        // Check if this line is a list item with checkbox syntax
+        const listMatch = line.match(/^\s*[-*+]\s*\[([ x])\]\s*(.+)$/i);
+        
+        if (listMatch) {
+            const checkboxState = listMatch[1].toLowerCase();
+            const isCompleted = checkboxState === 'x';
+            const currentTaskId = `task-${taskId}`;
+            
+            // Set the task state
+            taskData[currentTaskId] = isCompleted;
+            taskId++;
+        } else if (line.match(/^\s*[-*+]\s+/)) {
+            // Regular list item without checkbox syntax
+            taskId++;
+        }
+    }
 }
 
 function toggleInputPanel() {
