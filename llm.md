@@ -40,6 +40,26 @@ This is a single-file HTML application designed to convert markdown into interac
 - Simplifies the code significantly
 - Session-based usage is the primary pattern anyway
 - Avoids privacy concerns with persistent storage
+- Ensures all user data stays local to their browser
+
+## Privacy and Security Considerations
+
+### Data Handling
+**All processing is client-side:** The application performs markdown parsing and checklist management entirely within the user's browser. No content is transmitted to external servers for processing.
+
+**Network requests are limited to:**
+- Initial page load (HTML, CSS, JavaScript)
+- Loading marked.js library from CDN
+- Standard browser DNS resolution
+
+**No data transmission:** User content, including sensitive information that might accidentally be pasted, never leaves the user's device. This is by design to ensure privacy and security.
+
+### Security Benefits
+- No server-side attack surface
+- No data storage that could be compromised
+- No third-party data processing
+- No user tracking or analytics
+- Complete user control over their data
 
 ## Code Architecture
 
