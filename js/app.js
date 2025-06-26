@@ -76,14 +76,30 @@ function convertToInteractiveChecklist(markdown) {
     // Replace list items with interactive checkboxes
     html = html.replace(/<li>(.*?)<\/li>/gs, function(match, content) {
         const currentTaskId = `task-${taskId++}`;
-        const isCompleted = taskData[currentTaskId] || false;
+        
+        // Check if the content has existing checkbox syntax
+        const checkboxMatch = content.match(/^\s*\[([ x])\]\s*(.*)$/);
+        let isCompleted = false;
+        let displayText = content;
+        
+        if (checkboxMatch) {
+            // Found checkbox syntax - extract state and clean text
+            isCompleted = checkboxMatch[1].toLowerCase() === 'x';
+            displayText = checkboxMatch[2];
+            // Update taskData with the parsed state
+            taskData[currentTaskId] = isCompleted;
+        } else {
+            // No checkbox syntax - use existing state or default to false
+            isCompleted = taskData[currentTaskId] || false;
+        }
+        
         const checkedAttr = isCompleted ? 'checked' : '';
         const completedClass = isCompleted ? 'completed' : '';
         
         return `
             <div class="task-item ${completedClass}" data-task-id="${currentTaskId}">
                 <input type="checkbox" class="task-checkbox" ${checkedAttr}>
-                <span class="task-text">${content}</span>
+                <span class="task-text">${displayText}</span>
             </div>
         `;
     });
