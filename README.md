@@ -42,6 +42,12 @@ Single-file HTML application using:
 
 All state is kept in memory during the session. No data is transmitted anywhere - everything runs locally in your browser.
 
+## Privacy and Security
+
+**Your data stays local:** All markdown content and task progress remains in your browser. Nothing is sent to external servers for processing. The app works entirely client-side using JavaScript, so any content you paste (including sensitive information) never leaves your device.
+
+**No tracking or analytics:** The application doesn't collect usage data, track user behavior, or communicate with external services beyond loading the initial page and the markdown parsing library.
+
 ## Development context
 
 This started as a quick solution to make Teams bot certificate expiry reports more manageable. The problem was having long markdown dumps that were impossible to work through systematically in text editors.
