@@ -4,43 +4,60 @@ A simple web app that converts markdown lists into interactive checklists. Built
 
 ## What it does
 
-Takes any markdown content and transforms list items into checkboxes you can tick off as you complete tasks. Particularly useful for:
+Takes any markdown content and transforms list items into checkboxes you can tick off as you complete tasks. The problem was simple: you'd get a long list of tasks and then... what? No way to tick things off, no progress tracking, no ability to focus on specific sections.
 
-- Certificate renewal lists
+Particularly useful for:
+
+- Certificate renewal lists from monitoring systems
 - Operational task reports  
-- Project checklists
+- Project checklists and runbooks
 - Meeting action items
-- Any markdown list that needs tracking
+- System maintenance procedures
+- Any markdown list that needs systematic progress tracking
 
 ## Features
 
 - **Interactive checklists** - Any markdown list item becomes a tickable checkbox
-- **Collapsible sections** - Click headers to collapse/expand sections for better focus
-- **Progress tracking** - Shows completion stats and progress bar
-- **Minimizable input** - Hide the markdown panel once you've pasted your content
+- **Collapsible sections** - Click headers to collapse/expand sections for better focus on what matters right now
+- **Progress tracking** - Shows completion stats and progress bar so you know exactly where you stand
+- **Minimizable input** - Hide the markdown panel once you've pasted your content and focus on the actual work
 - **Dual view modes** - Switch between interactive checklist and standard markdown preview
-- **Session persistence** - Your progress is saved while you work
-- **Mobile friendly** - Works on phones and tablets
+- **Session persistence** - Your progress survives page refreshes until you close the browser
+- **Mobile friendly** - Works on phones and tablets for operational tasks on the go
 
 ## How to use
 
 1. Paste your markdown content in the left panel
 2. Click "Checklist" mode to see interactive checkboxes
-3. Minimize the input panel to focus on your tasks
+3. Minimize the input panel to focus entirely on your tasks
 4. Tick off items as you complete them
 5. Use collapsible headers to hide sections you're not working on
 
 The app handles standard markdown formatting whilst converting any list items (starting with `-`, `*`, or `+`) into interactive checkboxes.
 
+## File Structure
+
+```
+/
+├── index.html          # Main application
+├── about.html          # About page explaining the tool
+├── examples.html       # Real-world usage examples
+├── css/
+│   └── styles.css      # All styling
+├── js/
+│   └── app.js          # Application logic
+└── README.md           # This file
+```
+
 ## Technical details
 
-Single-file HTML application using:
+Built as a collection of static files using:
 - Vanilla JavaScript for functionality
 - [marked.js](https://marked.js.org/) for markdown parsing
 - CSS for styling and animations
-- No build process required
+- No build process or frameworks required
 
-All state is kept in memory during the session. No data is transmitted anywhere - everything runs locally in your browser.
+All state is kept in memory during the session. No data is transmitted anywhere - everything runs locally in your browser for complete privacy.
 
 ## Privacy and Security
 
@@ -52,14 +69,16 @@ All state is kept in memory during the session. No data is transmitted anywhere 
 
 This started as a quick solution to make Teams bot certificate expiry reports more manageable. The problem was having long markdown dumps that were impossible to work through systematically in text editors.
 
-The collapsible headers and minimize functionality came from real usage - when you're working through operational checklists, you need to focus on specific priority levels without distraction.
+The collapsible headers and minimize functionality came from real usage - when you're working through operational checklists, you need to focus on specific priority levels without distraction from lower-priority items.
+
+Most existing solutions were either too complex (full project management tools) or missed the point entirely (visual checklist designers for creating new content rather than working with existing operational data).
 
 ## Setup
 
 Just open `index.html` in any modern web browser. No installation or server required.
 
 For GitHub Pages hosting:
-1. Upload `index.html` to your repository
+1. Upload all files to your repository
 2. Enable GitHub Pages in repository settings
 3. Optionally configure a custom domain
 
@@ -71,3 +90,9 @@ Works in any modern browser that supports:
 - Local JavaScript execution
 
 Tested on Chrome, Firefox, Safari, and Edge.
+
+## Contributing
+
+The code is straightforward and contributions are welcome. Found a bug? Have an idea for improvement? Feel free to open an issue or submit a pull request.
+
+Built by [James Wardle](https://jameswardle.me) - a DevOps engineer who got tired of working through certificate renewal lists in text editors and decided to fix the problem properly.
