@@ -18,6 +18,7 @@ Particularly useful for:
 ## Features
 
 - **Interactive checklists** - Any markdown list item becomes a tickable checkbox
+- **Save Progress** - Export your current state as markdown with completed items marked as `[x]` to resume later. When you paste the saved markdown back in, the tool automatically detects and restores your progress
 - **Collapsible sections** - Click headers to collapse/expand sections for better focus on what matters right now
 - **Progress tracking** - Shows completion stats and progress bar so you know exactly where you stand
 - **Minimizable input** - Hide the markdown panel once you've pasted your content and focus on the actual work
@@ -32,8 +33,9 @@ Particularly useful for:
 3. Minimize the input panel to focus entirely on your tasks
 4. Tick off items as you complete them
 5. Use collapsible headers to hide sections you're not working on
+6. Click "Save Progress" to export your current state as markdown for resuming later
 
-The app handles standard markdown formatting whilst converting any list items (starting with `-`, `*`, or `+`) into interactive checkboxes.
+The app handles standard markdown formatting whilst converting any list items (starting with `-`, `*`, or `+`) into interactive checkboxes. The Save Progress feature converts completed items to `[x]` format, and when you paste this saved markdown back in, the tool automatically detects and restores your exact progress state.
 
 ## File Structure
 
