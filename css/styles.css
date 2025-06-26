@@ -389,40 +389,29 @@ body {
     z-index: 100;
 }
 
-.privacy-notice {
-    position: fixed;
-    bottom: 90px;
-    left: 0;
-    right: 0;
-    padding: 8px 20px;
-    background: #f0f8ff;
-    border-top: 1px solid #e0e0e0;
-    text-align: center;
-    font-size: 0.8rem;
-    color: #555;
-    z-index: 99;
-}
-
-.privacy-notice p {
-    margin: 0;
-}
-
 .footer {
-    position: fixed;
-    bottom: 60px;
-    left: 0;
-    right: 0;
-    padding: 8px 20px;
     background: #f8f9fa;
     border-top: 1px solid #e0e0e0;
-    text-align: center;
-    font-size: 0.8rem;
-    color: #666;
-    z-index: 98;
+    padding: 20px;
+    margin-top: 40px;
 }
 
-.footer p {
-    margin: 0;
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-content p {
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+.footer-content p:first-child {
+    color: #555;
+    font-weight: 500;
 }
 
 .footer a {
@@ -436,7 +425,7 @@ body {
 
 /* Add bottom padding to container to prevent content being hidden behind fixed controls */
 .container {
-    padding-bottom: 130px;
+    padding-bottom: 80px;
 }
 
 .btn {
@@ -513,16 +502,8 @@ body {
         font-size: 0.85rem;
     }
     
-    .privacy-notice {
-        bottom: 80px;
-        padding: 6px 15px;
-        font-size: 0.75rem;
-    }
-    
-    .footer {
-        bottom: 50px;
-        padding: 6px 15px;
-        font-size: 0.75rem;
+    .footer-content p {
+        font-size: 0.8rem;
     }
     
     .nav {
