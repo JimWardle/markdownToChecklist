@@ -95,8 +95,8 @@ function processCustomListSyntax(html, markdown) {
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         
-        // Check for custom list syntax - match any number of dashes followed by space and content
-        const listMatch = line.match(/^(\s*)(---?-?)\s+(.+)$/);
+        // Check for custom list syntax - match 1, 2, or 3 dashes followed by space and content
+        const listMatch = line.match(/^(\s*)(-{1,3})\s+(.+)$/);
         
         if (listMatch) {
             const indent = listMatch[1];
@@ -151,6 +151,42 @@ function processCustomListSyntax(html, markdown) {
     }
     
     return result.join('\n');
+}
+
+function parseCheckboxStates(markdown) {
+    const lines = markdown.split('\n');
+    let taskId = 0;
+    
+    for (const line of lines) {
+        // Check for any of our custom list syntaxes with checkbox syntax
+        const listMatch = line.match(/^(\s*)(-{1,3})\s*\[([ x])\]\s*(.+)$/i);
+        
+        if (listMatch) {
+            const checkboxState = listMatch[3].toLowerCase();
+            const isCompleted = checkboxState === 'x';
+            const currentTaskId = `task-${taskId}`;
+            
+            // Set the task state
+            taskData[currentTaskId] = isCompleted;
+            taskId++;
+        } else if (line.match(/^(\s*)(-{1,3})\s+(.+)$/)) {
+            // Regular list item without checkbox syntax
+            taskId++;
+        }
+    }
+}
+
+function cleanCheckboxSyntax(markdown) {
+    const lines = markdown.split('\n');
+    const cleanedLines = [];
+    
+    for (const line of lines) {
+        // Remove checkbox syntax from our custom list items
+        const cleaned = line.replace(/^(\s*)(-{1,3})\s*\[([ x])\]\s*/, '$1$2 ');
+        cleanedLines.push(cleaned);
+    }
+    
+    return cleanedLines.join('\n');
 }
 
 function parseCheckboxStates(markdown) {
