@@ -79,41 +79,35 @@ function convertToInteractiveChecklist(markdown) {
     // Add final closing div
     html += '</div>';
     
-    // Replace list items with interactive checkboxes using a recursive approach
-    function processListItems(htmlString) {
-        return htmlString.replace(/<li>((?:(?!<li>|<\/li>).)*?)(<ul>.*?<\/ul>)?((?:(?!<li>|<\/li>).)*?)<\/li>/gs, function(match, beforeNested, nestedList, afterNested) {
-            // Extract the text content (before and after any nested lists)
-            const textContent = (beforeNested + afterNested).trim();
+    // Process list items from deepest to shallowest to avoid breaking parent structure
+    let hasChanges = true;
+    while (hasChanges) {
+        hasChanges = false;
+        
+        // Find the deepest list items (those that don't contain other list items)
+        html = html.replace(/<li>([^<]*(?:<(?!\/li>|li>|ul>|ol>)[^<]*)*[^<]*)<\/li>/g, function(match, content) {
+            const textContent = content.trim();
             
             if (textContent) {
+                hasChanges = true;
                 const currentTaskId = `task-${taskId++}`;
                 const isCompleted = taskData[currentTaskId] || false;
                 const checkedAttr = isCompleted ? 'checked' : '';
                 const completedClass = isCompleted ? 'completed' : '';
                 
-                let result = `
+                return `
                     <li class="task-item ${completedClass}" data-task-id="${currentTaskId}">
                         <div class="task-content">
                             <input type="checkbox" class="task-checkbox" ${checkedAttr}>
                             <span class="task-text">${textContent}</span>
                         </div>
+                    </li>
                 `;
-                
-                // If there's a nested list, process it recursively and add it
-                if (nestedList) {
-                    result += processListItems(nestedList);
-                }
-                
-                result += '</li>';
-                return result;
             }
             
             return match;
         });
     }
-    
-    // Process the HTML to convert list items
-    html = processListItems(html);
     
     return html;
 }
