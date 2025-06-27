@@ -731,3 +731,201 @@ body {
 .task-item .task-item .task-item .task-item {
     margin-left: 60px;
 }
+
+/* Custom list styling for nested syntax */
+.custom-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    display: flex;
+    align-items: flex-start;
+    margin: 8px 0;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+    background: #fafafa;
+}
+
+.task-item:hover {
+    background: #f0f0f0;
+}
+
+.task-item.completed {
+    background: #f0f8f0;
+    opacity: 0.8;
+}
+
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #666;
+}
+
+/* Level 1: No additional indentation */
+.task-item.level-1 {
+    margin-left: 0;
+}
+
+/* Level 2: Indented with different styling */
+.task-item.level-2 {
+    margin-left: 30px;
+    background: #f5f8ff;
+    border-left: 3px solid #3498db;
+}
+
+.task-item.level-2:hover {
+    background: #e8f2ff;
+}
+
+.task-item.level-2.completed {
+    background: #e8f5e8;
+    border-left-color: #27ae60;
+}
+
+/* Level 3: Further indented with different styling */
+.task-item.level-3 {
+    margin-left: 60px;
+    background: #fdf5ff;
+    border-left: 3px solid #9b59b6;
+    font-size: 0.95em;
+}
+
+.task-item.level-3:hover {
+    background: #f3e8ff;
+}
+
+.task-item.level-3.completed {
+    background: #e8f5e8;
+    border-left-color: #27ae60;
+}
+
+.task-checkbox {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: #27ae60;
+}
+
+.task-text {
+    flex: 1;
+    color: #444;
+    line-height: 1.5;
+}
+
+/* Syntax help styling */
+.syntax-help {
+    margin-top: 10px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+}
+
+.syntax-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 0;
+    color: #666;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.syntax-toggle:hover {
+    color: #444;
+}
+
+.help-icon {
+    background: #3498db;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.help-text {
+    flex: 1;
+    font-weight: 500;
+}
+
+.expand-icon {
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+}
+
+.syntax-toggle.expanded .expand-icon {
+    transform: rotate(180deg);
+}
+
+.syntax-content {
+    padding: 15px 0 5px 0;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 10px;
+}
+
+.syntax-content h4 {
+    margin: 0 0 12px 0;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.syntax-examples {
+    margin-bottom: 12px;
+}
+
+.syntax-level {
+    display: flex;
+    align-items: center;
+    margin: 6px 0;
+    justify-content: space-between;
+}
+
+.syntax-level code {
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.85rem;
+    color: #2c3e50;
+    border: 1px solid #e9ecef;
+}
+
+.level-indicator {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.level-1-indicator {
+    background: #f0f0f0;
+    color: #555;
+}
+
+.level-2-indicator {
+    background: #e8f2ff;
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+.level-3-indicator {
+    background: #f3e8ff;
+    color: #9b59b6;
+    border: 1px solid #9b59b6;
+}
+
+.syntax-note {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.4;
+    margin: 0;
+    font-style: italic;
+}

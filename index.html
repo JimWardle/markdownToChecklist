@@ -56,12 +56,41 @@ Example:
 # My Tasks
 ## Urgent
 - Fix the server issue
+-- Check server logs
+--- Review error patterns
+-- Restart services if needed
 - Update documentation
 - Call the client
 
 ## Later
 - Review code
 - Plan next sprint"></textarea>
+                    
+                    <div class="syntax-help">
+                        <div class="syntax-toggle" onclick="toggleSyntaxHelp()">
+                            <span class="help-icon">?</span>
+                            <span class="help-text">Syntax Help</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="syntax-content" id="syntaxContent" style="display: none;">
+                            <h4>Nested List Syntax</h4>
+                            <div class="syntax-examples">
+                                <div class="syntax-level">
+                                    <code>- Top level item</code>
+                                    <span class="level-indicator level-1-indicator">Level 1</span>
+                                </div>
+                                <div class="syntax-level">
+                                    <code>-- Second level item</code>
+                                    <span class="level-indicator level-2-indicator">Level 2</span>
+                                </div>
+                                <div class="syntax-level">
+                                    <code>--- Third level item</code>
+                                    <span class="level-indicator level-3-indicator">Level 3</span>
+                                </div>
+                            </div>
+                            <p class="syntax-note">Use single (-), double (--), or triple (---) dashes for different nesting levels. Perfect for operational checklists and certificate renewals!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
