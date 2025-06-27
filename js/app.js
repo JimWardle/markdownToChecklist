@@ -83,8 +83,10 @@ function convertToInteractiveChecklist(markdown) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
     
-    // Find all li elements (including nested ones) and convert them to checkboxes
-    const allListItems = tempDiv.querySelectorAll('li');
+    // Find all li elements (including nested ones) and collect them first
+    const allListItems = Array.from(tempDiv.querySelectorAll('li'));
+    
+    // Process each li element and convert to checkbox
     allListItems.forEach(li => {
         // Get just the direct text content of this li (not including nested lists)
         const directTextContent = getDirectTextContent(li);
