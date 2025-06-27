@@ -1,8 +1,57 @@
 let currentMode = 'checklist';
 let taskData = {};
 
+// Dark mode functionality
+function initializeTheme() {
+    // Check for saved theme preference or default to light
+    const savedTheme = sessionStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeToggleButton(savedTheme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    sessionStorage.setItem('theme', newTheme);
+    updateThemeToggleButton(newTheme);
+}
+
+function updateThemeToggleButton(theme) {
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        const icon = themeToggle.querySelector('.theme-toggle-icon');
+        const text = themeToggle.querySelector('.theme-toggle-text');
+        
+        if (theme === 'dark') {
+            icon.textContent = '☀️';
+            text.textContent = 'Light';
+        } else {
+            icon.textContent = '🌙';
+            text.textContent = 'Dark';
+        }
+    }
+}
+
+function toggleSyntaxHelp() {
+    const content = document.getElementById('syntaxContent');
+    const toggle = document.querySelector('.syntax-toggle');
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        toggle.classList.add('expanded');
+    } else {
+        content.style.display = 'none';
+        toggle.classList.remove('expanded');
+    }
+}
+
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme first
+    initializeTheme();
+    
     loadProgress();
     updateOutput();
     
@@ -21,6 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
             updateOutput();
         });
     });
+    
+    // Set up theme toggle
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
 });
 
 function updateOutput() {
@@ -49,7 +104,7 @@ function updateOutput() {
 }
 
 function convertToInteractiveChecklist(markdown) {
-    // First, parse checkbox states from the raw markdown before processing
+    // First, parse checkbox states from the raw markdown before marked.js processes it
     parseCheckboxStates(markdown);
     
     // Clean the checkbox syntax from the markdown before processing
@@ -183,132 +238,6 @@ function cleanCheckboxSyntax(markdown) {
     for (const line of lines) {
         // Remove checkbox syntax from our custom list items
         const cleaned = line.replace(/^(\s*)(-{1,3})\s*\[([ x])\]\s*/, '$1$2 ');
-        cleanedLines.push(cleaned);
-    }
-    
-    return cleanedLines.join('\n');
-}
-
-function parseCheckboxStates(markdown) {
-    const lines = markdown.split('\n');
-    let taskId = 0;
-    
-    for (const line of lines) {
-        // Check for any of our custom list syntaxes with checkbox syntax
-        const listMatch = line.match(/^(\s*)(---?-?)\s*\[([ x])\]\s*(.+)$/i);
-        
-        if (listMatch) {
-            const checkboxState = listMatch[2].toLowerCase();
-            const isCompleted = checkboxState === 'x';
-            const currentTaskId = `task-${taskId}`;
-            
-            // Set the task state
-            taskData[currentTaskId] = isCompleted;
-            taskId++;
-        } else if (line.match(/^(\s*)(---?-?)\s+(.+)$/)) {
-            // Regular list item without checkbox syntax
-            taskId++;
-        }
-    }
-}
-
-function cleanCheckboxSyntax(markdown) {
-    const lines = markdown.split('\n');
-    const cleanedLines = [];
-    
-    for (const line of lines) {
-        // Remove checkbox syntax from our custom list items
-        const cleaned = line.replace(/^(\s*)(---?-?)\s*\[([ x])\]\s*/, '$1$2 ');
-        cleanedLines.push(cleaned);
-    }
-    
-    return cleanedLines.join('\n');
-}
-
-function parseCheckboxStates(markdown) {
-    const lines = markdown.split('\n');
-    let taskId = 0;
-    
-    for (const line of lines) {
-        // Check for any of our custom list syntaxes with checkbox syntax
-        const listMatch = line.match(/^(\s*)(---?-?)\s*\[([ x])\]\s*(.+)$/i) || 
-                         line.match(/^(\s*)(-)\s*\[([ x])\]\s*(.+)$/i);
-        
-        if (listMatch) {
-            const checkboxState = listMatch[3].toLowerCase();
-            const isCompleted = checkboxState === 'x';
-            const currentTaskId = `task-${taskId}`;
-            
-            // Set the task state
-            taskData[currentTaskId] = isCompleted;
-            taskId++;
-        } else if (line.match(/^(\s*)(---?-?)\s*(.+)$/) || line.match(/^(\s*)(-)\s*(.+)$/)) {
-            // Regular list item without checkbox syntax
-            taskId++;
-        }
-    }
-}
-
-function cleanCheckboxSyntax(markdown) {
-    const lines = markdown.split('\n');
-    const cleanedLines = [];
-    
-    for (const line of lines) {
-        // Remove checkbox syntax from our custom list items
-        let cleaned = line.replace(/^(\s*)(---?-?)\s*\[([ x])\]\s*/, '$1$2 ');
-        cleaned = cleaned.replace(/^(\s*)(-)\s*\[([ x])\]\s*/, '$1$2 ');
-        cleanedLines.push(cleaned);
-    }
-    
-    return cleanedLines.join('\n');
-}
-
-// Helper function to get only the direct text content of an li element
-// (excluding text from nested li elements)
-function getDirectTextContent(li) {
-    let text = '';
-    for (let node of li.childNodes) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            text += node.textContent;
-        } else if (node.nodeType === Node.ELEMENT_NODE && 
-                   node.tagName !== 'UL' && node.tagName !== 'OL') {
-            // Include content from non-list elements (like <strong>, <em>, etc.)
-            text += node.textContent;
-        }
-    }
-    return text;
-}
-
-function parseCheckboxStates(markdown) {
-    const lines = markdown.split('\n');
-    let taskId = 0;
-    
-    for (const line of lines) {
-        // Check if this line is a list item with checkbox syntax (at any indentation level)
-        const listMatch = line.match(/^\s*[-*+]\s*\[([ x])\]\s*(.+)$/i);
-        
-        if (listMatch) {
-            const checkboxState = listMatch[1].toLowerCase();
-            const isCompleted = checkboxState === 'x';
-            const currentTaskId = `task-${taskId}`;
-            
-            // Set the task state
-            taskData[currentTaskId] = isCompleted;
-            taskId++;
-        } else if (line.match(/^\s*[-*+]\s+/)) {
-            // Regular list item without checkbox syntax (at any indentation level)
-            taskId++;
-        }
-    }
-}
-
-function cleanCheckboxSyntax(markdown) {
-    const lines = markdown.split('\n');
-    const cleanedLines = [];
-    
-    for (const line of lines) {
-        // Remove checkbox syntax from list items (at any indentation level)
-        const cleaned = line.replace(/^(\s*[-*+]\s*)\[([ x])\]\s*/, '$1');
         cleanedLines.push(cleaned);
     }
     
@@ -468,19 +397,6 @@ function copyToClipboard() {
     } catch (err) {
         // Final fallback
         alert('Please manually copy the text above');
-    }
-}
-
-function toggleSyntaxHelp() {
-    const content = document.getElementById('syntaxContent');
-    const toggle = document.querySelector('.syntax-toggle');
-    
-    if (content.style.display === 'none') {
-        content.style.display = 'block';
-        toggle.classList.add('expanded');
-    } else {
-        content.style.display = 'none';
-        toggle.classList.remove('expanded');
     }
 }
 
