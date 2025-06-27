@@ -4,6 +4,447 @@
     box-sizing: border-box;
 }
 
+/* Add this to the top of your styles.css, after the existing * reset */
+
+/* CSS Variables for theming */
+:root {
+    /* Light theme (default) */
+    --color-bg-body: #f5f6fa;
+    --color-bg-container: white;
+    --color-bg-panel: #f8f9fa;
+    --color-bg-panel-hover: #f0f0f0;
+    --color-bg-input: #fafafa;
+    --color-bg-input-focus: white;
+    --color-bg-task: #fafafa;
+    --color-bg-task-hover: #f0f0f0;
+    --color-bg-task-completed: #f0f8f0;
+    --color-bg-level2: #f5f8ff;
+    --color-bg-level2-hover: #e8f2ff;
+    --color-bg-level3: #fdf5ff;
+    --color-bg-level3-hover: #f3e8ff;
+    --color-bg-controls: #f8f9fa;
+    --color-bg-modal: rgba(0, 0, 0, 0.5);
+    --color-bg-stats: #f8f9fa;
+    --color-bg-syntax-code: #f8f9fa;
+    --color-bg-progress: #f0f0f0;
+    
+    --color-text-primary: #444;
+    --color-text-secondary: #666;
+    --color-text-tertiary: #555;
+    --color-text-header: #2c3e50;
+    --color-text-subheader: #34495e;
+    --color-text-muted: #7f8c8d;
+    --color-text-empty: #95a5a6;
+    --color-text-completed: #666;
+    
+    --color-border-primary: #e0e0e0;
+    --color-border-secondary: #ddd;
+    --color-border-tertiary: #eee;
+    --color-border-light: #f0f0f0;
+    --color-border-syntax: #e9ecef;
+    
+    --color-accent-primary: #3498db;
+    --color-accent-primary-hover: #2980b9;
+    --color-accent-success: #27ae60;
+    --color-accent-success-hover: #229954;
+    --color-accent-danger: #e74c3c;
+    --color-accent-danger-hover: #c0392b;
+    --color-accent-secondary: #95a5a6;
+    --color-accent-secondary-hover: #7f8c8d;
+    --color-accent-level2: #3498db;
+    --color-accent-level3: #9b59b6;
+    
+    --shadow-container: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-controls: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-modal: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --color-bg-body: #121212;
+    --color-bg-container: #1e1e1e;
+    --color-bg-panel: #2d2d2d;
+    --color-bg-panel-hover: #3a3a3a;
+    --color-bg-input: #2d2d2d;
+    --color-bg-input-focus: #333333;
+    --color-bg-task: #2a2a2a;
+    --color-bg-task-hover: #333333;
+    --color-bg-task-completed: #2d3a2d;
+    --color-bg-level2: #2d3240;
+    --color-bg-level2-hover: #353b4a;
+    --color-bg-level3: #3d2d40;
+    --color-bg-level3-hover: #4a3548;
+    --color-bg-controls: #2d2d2d;
+    --color-bg-modal: rgba(0, 0, 0, 0.7);
+    --color-bg-stats: #2d2d2d;
+    --color-bg-syntax-code: #2a2a2a;
+    --color-bg-progress: #404040;
+    
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #b0b0b0;
+    --color-text-tertiary: #c0c0c0;
+    --color-text-header: #ffffff;
+    --color-text-subheader: #f0f0f0;
+    --color-text-muted: #888888;
+    --color-text-empty: #666666;
+    --color-text-completed: #999999;
+    
+    --color-border-primary: #404040;
+    --color-border-secondary: #505050;
+    --color-border-tertiary: #353535;
+    --color-border-light: #454545;
+    --color-border-syntax: #404040;
+    
+    --color-accent-primary: #4a9eff;
+    --color-accent-primary-hover: #357abd;
+    --color-accent-success: #27ae60;
+    --color-accent-success-hover: #229954;
+    --color-accent-danger: #e74c3c;
+    --color-accent-danger-hover: #c0392b;
+    --color-accent-secondary: #95a5a6;
+    --color-accent-secondary-hover: #7f8c8d;
+    --color-accent-level2: #4a9eff;
+    --color-accent-level3: #b59bd6;
+    
+    --shadow-container: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --shadow-controls: 0 -2px 10px rgba(0, 0, 0, 0.3);
+    --shadow-modal: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+    position: relative;
+    margin-left: auto;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.theme-toggle-icon {
+    margin-right: 5px;
+}
+
+/* Update existing styles to use CSS variables */
+body {
+    background: var(--color-bg-body);
+    transition: background-color 0.3s ease;
+}
+
+.container {
+    background: var(--color-bg-container);
+    box-shadow: var(--shadow-container);
+}
+
+.panel-header {
+    background: var(--color-bg-panel);
+    border-bottom: 1px solid var(--color-border-primary);
+}
+
+.panel-header:hover {
+    background: var(--color-bg-panel-hover);
+}
+
+.panel-title {
+    color: var(--color-text-header);
+}
+
+.minimize-icon {
+    color: var(--color-text-secondary);
+}
+
+.mode-toggle {
+    background: var(--color-bg-container);
+    border: 1px solid var(--color-border-secondary);
+}
+
+.mode-btn {
+    background: var(--color-bg-container);
+    color: var(--color-text-secondary);
+}
+
+.mode-btn.active {
+    background: var(--color-accent-primary);
+    color: white;
+}
+
+.mode-btn:hover:not(.active) {
+    background: var(--color-bg-panel);
+}
+
+#markdownInput {
+    border: 1px solid var(--color-border-secondary);
+    background: var(--color-bg-input);
+    color: var(--color-text-primary);
+}
+
+#markdownInput:focus {
+    border-color: var(--color-accent-primary);
+    background: var(--color-bg-input-focus);
+}
+
+#output {
+    background: var(--color-bg-container);
+    border: 1px solid var(--color-border-tertiary);
+    color: var(--color-text-primary);
+}
+
+.collapsible-header:hover {
+    background: var(--color-bg-panel);
+}
+
+.collapse-icon {
+    color: var(--color-text-secondary);
+}
+
+#output h1 {
+    color: var(--color-text-header);
+    border-bottom: 2px solid var(--color-accent-primary);
+}
+
+#output h2 {
+    color: var(--color-text-subheader);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+#output h3 {
+    color: var(--color-text-tertiary);
+}
+
+#output h4 {
+    color: var(--color-text-secondary);
+}
+
+#output p {
+    color: var(--color-text-primary);
+}
+
+#output li {
+    color: var(--color-text-tertiary);
+}
+
+.task-item {
+    background: var(--color-bg-task);
+}
+
+.task-item:hover {
+    background: var(--color-bg-task-hover);
+}
+
+.task-item.completed {
+    background: var(--color-bg-task-completed);
+}
+
+.task-item.completed .task-text {
+    color: var(--color-text-completed);
+}
+
+.task-item.level-2 {
+    background: var(--color-bg-level2);
+    border-left: 3px solid var(--color-accent-level2);
+}
+
+.task-item.level-2:hover {
+    background: var(--color-bg-level2-hover);
+}
+
+.task-item.level-3 {
+    background: var(--color-bg-level3);
+    border-left: 3px solid var(--color-accent-level3);
+}
+
+.task-item.level-3:hover {
+    background: var(--color-bg-level3-hover);
+}
+
+.task-text {
+    color: var(--color-text-primary);
+}
+
+.progress-bar {
+    background: var(--color-bg-progress);
+}
+
+.progress-fill {
+    background: var(--color-accent-success);
+}
+
+.stats {
+    background: var(--color-bg-stats);
+    color: var(--color-text-tertiary);
+    border: 1px solid var(--color-border-tertiary);
+}
+
+.stat-number {
+    color: var(--color-text-header);
+}
+
+.stat-label {
+    color: var(--color-text-secondary);
+}
+
+.controls {
+    background: var(--color-bg-controls);
+    border-top: 1px solid var(--color-border-primary);
+    box-shadow: var(--shadow-controls);
+}
+
+.footer {
+    background: var(--color-bg-panel);
+    border-top: 1px solid var(--color-border-primary);
+}
+
+.footer-content p {
+    color: var(--color-text-secondary);
+}
+
+.footer-content p:first-child {
+    color: var(--color-text-tertiary);
+}
+
+.footer a {
+    color: var(--color-accent-primary);
+}
+
+.btn-primary {
+    background: var(--color-accent-primary);
+}
+
+.btn-primary:hover {
+    background: var(--color-accent-primary-hover);
+}
+
+.btn-secondary {
+    background: var(--color-accent-secondary);
+}
+
+.btn-secondary:hover {
+    background: var(--color-accent-secondary-hover);
+}
+
+.btn-danger {
+    background: var(--color-accent-danger);
+}
+
+.btn-danger:hover {
+    background: var(--color-accent-danger-hover);
+}
+
+.btn-success {
+    background: var(--color-accent-success);
+}
+
+.btn-success:hover {
+    background: var(--color-accent-success-hover);
+}
+
+.empty-state {
+    color: var(--color-text-muted);
+}
+
+.empty-state h3 {
+    color: var(--color-text-empty);
+}
+
+.modal {
+    background-color: var(--color-bg-modal);
+}
+
+.modal-content {
+    background: var(--color-bg-container);
+    box-shadow: var(--shadow-modal);
+}
+
+.modal-body {
+    color: var(--color-text-primary);
+}
+
+.modal-textarea {
+    border: 1px solid var(--color-border-secondary);
+    background: var(--color-bg-input);
+    color: var(--color-text-primary);
+}
+
+.modal-textarea:focus {
+    border-color: var(--color-accent-primary);
+    background: var(--color-bg-input-focus);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--color-border-primary);
+}
+
+.syntax-help {
+    border-top: 1px solid var(--color-border-primary);
+}
+
+.syntax-toggle {
+    color: var(--color-text-secondary);
+}
+
+.syntax-toggle:hover {
+    color: var(--color-text-primary);
+}
+
+.help-icon {
+    background: var(--color-accent-primary);
+}
+
+.syntax-content {
+    border-top: 1px solid var(--color-border-light);
+}
+
+.syntax-content h4 {
+    color: var(--color-text-header);
+}
+
+.syntax-level code {
+    background: var(--color-bg-syntax-code);
+    color: var(--color-text-header);
+    border: 1px solid var(--color-border-syntax);
+}
+
+.level-1-indicator {
+    background: var(--color-bg-panel);
+    color: var(--color-text-tertiary);
+}
+
+.level-2-indicator {
+    background: var(--color-bg-level2);
+    color: var(--color-accent-level2);
+    border: 1px solid var(--color-accent-level2);
+}
+
+.level-3-indicator {
+    background: var(--color-bg-level3);
+    color: var(--color-accent-level3);
+    border: 1px solid var(--color-accent-level3);
+}
+
+.syntax-note {
+    color: var(--color-text-secondary);
+}
+
+.input-panel {
+    border-right: 1px solid var(--color-border-primary);
+}
+
+@media (max-width: 768px) {
+    .input-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--color-border-primary);
+    }
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #f5f6fa;
