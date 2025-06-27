@@ -49,7 +49,7 @@ function updateOutput() {
 }
 
 function convertToInteractiveChecklist(markdown) {
-    // First, parse checkbox states from the raw markdown before marked.js processes it
+    // First, parse checkbox states from the raw markdown before processing
     parseCheckboxStates(markdown);
     
     // Clean the checkbox syntax from the markdown before processing
@@ -79,37 +79,132 @@ function convertToInteractiveChecklist(markdown) {
     // Add final closing div
     html += '</div>';
     
-    // Process list items from deepest to shallowest to avoid breaking parent structure
-    let hasChanges = true;
-    while (hasChanges) {
-        hasChanges = false;
-        
-        // Find the deepest list items (those that don't contain other list items)
-        html = html.replace(/<li>([^<]*(?:<(?!\/li>|li>|ul>|ol>)[^<]*)*[^<]*)<\/li>/g, function(match, content) {
-            const textContent = content.trim();
-            
-            if (textContent) {
-                hasChanges = true;
-                const currentTaskId = `task-${taskId++}`;
-                const isCompleted = taskData[currentTaskId] || false;
-                const checkedAttr = isCompleted ? 'checked' : '';
-                const completedClass = isCompleted ? 'completed' : '';
-                
-                return `
-                    <li class="task-item ${completedClass}" data-task-id="${currentTaskId}">
-                        <div class="task-content">
-                            <input type="checkbox" class="task-checkbox" ${checkedAttr}>
-                            <span class="task-text">${textContent}</span>
-                        </div>
-                    </li>
-                `;
-            }
-            
-            return match;
-        });
-    }
+    // Handle custom nested syntax (-, --, ---)
+    // First, replace standard markdown lists with our custom format
+    html = processCustomListSyntax(html, cleanedMarkdown);
     
     return html;
+}
+
+function processCustomListSyntax(html, markdown) {
+    const lines = markdown.split('\n');
+    let result = [];
+    let taskId = 0;
+    let inList = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        
+        // Check for custom list syntax
+        const listMatch = line.match(/^(\s*)(---|--)(-.*?)$/);
+        const singleListMatch = line.match(/^(\s*)(-\s+.*)$/);
+        
+        if (listMatch) {
+            // Handle -- and --- syntax
+            const indent = listMatch[1];
+            const dashes = listMatch[2];
+            const content = listMatch[3].substring(1).trim(); // Remove the leading dash and trim
+            
+            if (!inList) {
+                result.push('<ul class="custom-list">');
+                inList = true;
+            }
+            
+            const level = dashes === '--' ? 'level-2' : 'level-3';
+            const currentTaskId = `task-${taskId++}`;
+            const isCompleted = taskData[currentTaskId] || false;
+            const checkedAttr = isCompleted ? 'checked' : '';
+            const completedClass = isCompleted ? 'completed' : '';
+            
+            result.push(`
+                <li class="task-item ${level} ${completedClass}" data-task-id="${currentTaskId}">
+                    <input type="checkbox" class="task-checkbox" ${checkedAttr}>
+                    <span class="task-text">${content}</span>
+                </li>
+            `);
+            
+        } else if (singleListMatch && !line.match(/^(\s*)(---|--)(-.*?)$/)) {
+            // Handle single - syntax (only if not already matched by double/triple)
+            const content = singleListMatch[2].substring(1).trim(); // Remove the leading dash and trim
+            
+            if (!inList) {
+                result.push('<ul class="custom-list">');
+                inList = true;
+            }
+            
+            const currentTaskId = `task-${taskId++}`;
+            const isCompleted = taskData[currentTaskId] || false;
+            const checkedAttr = isCompleted ? 'checked' : '';
+            const completedClass = isCompleted ? 'completed' : '';
+            
+            result.push(`
+                <li class="task-item level-1 ${completedClass}" data-task-id="${currentTaskId}">
+                    <input type="checkbox" class="task-checkbox" ${checkedAttr}>
+                    <span class="task-text">${content}</span>
+                </li>
+            `);
+            
+        } else {
+            // Not a list item - close list if we were in one
+            if (inList) {
+                result.push('</ul>');
+                inList = false;
+            }
+            
+            // Process non-list content with marked.js
+            if (line.trim()) {
+                const processedLine = marked.parse(line);
+                result.push(processedLine);
+            } else {
+                result.push('');
+            }
+        }
+    }
+    
+    // Close list if still open
+    if (inList) {
+        result.push('</ul>');
+    }
+    
+    return result.join('\n');
+}
+
+function parseCheckboxStates(markdown) {
+    const lines = markdown.split('\n');
+    let taskId = 0;
+    
+    for (const line of lines) {
+        // Check for any of our custom list syntaxes with checkbox syntax
+        const listMatch = line.match(/^(\s*)(---?-?)\s*\[([ x])\]\s*(.+)$/i) || 
+                         line.match(/^(\s*)(-)\s*\[([ x])\]\s*(.+)$/i);
+        
+        if (listMatch) {
+            const checkboxState = listMatch[3].toLowerCase();
+            const isCompleted = checkboxState === 'x';
+            const currentTaskId = `task-${taskId}`;
+            
+            // Set the task state
+            taskData[currentTaskId] = isCompleted;
+            taskId++;
+        } else if (line.match(/^(\s*)(---?-?)\s*(.+)$/) || line.match(/^(\s*)(-)\s*(.+)$/)) {
+            // Regular list item without checkbox syntax
+            taskId++;
+        }
+    }
+}
+
+function cleanCheckboxSyntax(markdown) {
+    const lines = markdown.split('\n');
+    const cleanedLines = [];
+    
+    for (const line of lines) {
+        // Remove checkbox syntax from our custom list items
+        let cleaned = line.replace(/^(\s*)(---?-?)\s*\[([ x])\]\s*/, '$1$2 ');
+        cleaned = cleaned.replace(/^(\s*)(-)\s*\[([ x])\]\s*/, '$1$2 ');
+        cleanedLines.push(cleaned);
+    }
+    
+    return cleanedLines.join('\n');
 }
 
 // Helper function to get only the direct text content of an li element
@@ -317,6 +412,19 @@ function copyToClipboard() {
     } catch (err) {
         // Final fallback
         alert('Please manually copy the text above');
+    }
+}
+
+function toggleSyntaxHelp() {
+    const content = document.getElementById('syntaxContent');
+    const toggle = document.querySelector('.syntax-toggle');
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        toggle.classList.add('expanded');
+    } else {
+        content.style.display = 'none';
+        toggle.classList.remove('expanded');
     }
 }
 
