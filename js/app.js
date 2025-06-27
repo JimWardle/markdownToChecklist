@@ -79,63 +79,43 @@ function convertToInteractiveChecklist(markdown) {
     // Add final closing div
     html += '</div>';
     
-    // Use DOM approach to handle nested lists properly
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-    
-    // Find all li elements (including nested ones) and collect them first
-    const allListItems = Array.from(tempDiv.querySelectorAll('li'));
-    
-    // Process each li element and convert to checkbox
-    allListItems.forEach(li => {
-        // Get just the direct text content of this li (not including nested lists)
-        const directTextContent = getDirectTextContent(li);
-        
-        if (directTextContent.trim()) {
-            const currentTaskId = `task-${taskId++}`;
-            const isCompleted = taskData[currentTaskId] || false;
+    // Replace list items with interactive checkboxes using a recursive approach
+    function processListItems(htmlString) {
+        return htmlString.replace(/<li>((?:(?!<li>|<\/li>).)*?)(<ul>.*?<\/ul>)?((?:(?!<li>|<\/li>).)*?)<\/li>/gs, function(match, beforeNested, nestedList, afterNested) {
+            // Extract the text content (before and after any nested lists)
+            const textContent = (beforeNested + afterNested).trim();
             
-            // Store nested lists before we clear the li
-            const nestedLists = [];
-            li.querySelectorAll('ul, ol').forEach(list => {
-                if (list.parentElement === li) {
-                    nestedLists.push(list.cloneNode(true));
+            if (textContent) {
+                const currentTaskId = `task-${taskId++}`;
+                const isCompleted = taskData[currentTaskId] || false;
+                const checkedAttr = isCompleted ? 'checked' : '';
+                const completedClass = isCompleted ? 'completed' : '';
+                
+                let result = `
+                    <li class="task-item ${completedClass}" data-task-id="${currentTaskId}">
+                        <div class="task-content">
+                            <input type="checkbox" class="task-checkbox" ${checkedAttr}>
+                            <span class="task-text">${textContent}</span>
+                        </div>
+                `;
+                
+                // If there's a nested list, process it recursively and add it
+                if (nestedList) {
+                    result += processListItems(nestedList);
                 }
-            });
+                
+                result += '</li>';
+                return result;
+            }
             
-            // Clear the li content but keep the element structure
-            li.innerHTML = '';
-            li.className = `task-item ${isCompleted ? 'completed' : ''}`;
-            li.setAttribute('data-task-id', currentTaskId);
-            
-            // Create checkbox
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'task-checkbox';
-            if (isCompleted) checkbox.checked = true;
-            
-            // Create text span
-            const textSpan = document.createElement('span');
-            textSpan.className = 'task-text';
-            textSpan.innerHTML = directTextContent;
-            
-            // Create a container for the checkbox and text
-            const taskContent = document.createElement('div');
-            taskContent.className = 'task-content';
-            taskContent.appendChild(checkbox);
-            taskContent.appendChild(textSpan);
-            
-            // Add the task content to the li
-            li.appendChild(taskContent);
-            
-            // Re-append any nested lists
-            nestedLists.forEach(list => {
-                li.appendChild(list);
-            });
-        }
-    });
+            return match;
+        });
+    }
     
-    return tempDiv.innerHTML;
+    // Process the HTML to convert list items
+    html = processListItems(html);
+    
+    return html;
 }
 
 // Helper function to get only the direct text content of an li element
