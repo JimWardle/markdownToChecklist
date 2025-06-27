@@ -83,7 +83,7 @@ function convertToInteractiveChecklist(markdown) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
     
-    // Find all li elements (including nested ones) and replace them
+    // Find all li elements (including nested ones) and convert them to checkboxes
     const allListItems = tempDiv.querySelectorAll('li');
     allListItems.forEach(li => {
         // Get just the direct text content of this li (not including nested lists)
@@ -92,13 +92,19 @@ function convertToInteractiveChecklist(markdown) {
         if (directTextContent.trim()) {
             const currentTaskId = `task-${taskId++}`;
             const isCompleted = taskData[currentTaskId] || false;
-            const checkedAttr = isCompleted ? 'checked' : '';
-            const completedClass = isCompleted ? 'completed' : '';
             
-            // Create the checkbox wrapper
-            const taskDiv = document.createElement('div');
-            taskDiv.className = `task-item ${completedClass}`;
-            taskDiv.setAttribute('data-task-id', currentTaskId);
+            // Store nested lists before we clear the li
+            const nestedLists = [];
+            li.querySelectorAll('ul, ol').forEach(list => {
+                if (list.parentElement === li) {
+                    nestedLists.push(list.cloneNode(true));
+                }
+            });
+            
+            // Clear the li content but keep the element structure
+            li.innerHTML = '';
+            li.className = `task-item ${isCompleted ? 'completed' : ''}`;
+            li.setAttribute('data-task-id', currentTaskId);
             
             // Create checkbox
             const checkbox = document.createElement('input');
@@ -111,20 +117,19 @@ function convertToInteractiveChecklist(markdown) {
             textSpan.className = 'task-text';
             textSpan.innerHTML = directTextContent;
             
-            // Append checkbox and text to task div
-            taskDiv.appendChild(checkbox);
-            taskDiv.appendChild(textSpan);
+            // Create a container for the checkbox and text
+            const taskContent = document.createElement('div');
+            taskContent.className = 'task-content';
+            taskContent.appendChild(checkbox);
+            taskContent.appendChild(textSpan);
             
-            // If this li has nested lists, append them after the text
-            const nestedLists = li.querySelectorAll('ul, ol');
+            // Add the task content to the li
+            li.appendChild(taskContent);
+            
+            // Re-append any nested lists
             nestedLists.forEach(list => {
-                if (list.parentElement === li) {
-                    taskDiv.appendChild(list);
-                }
+                li.appendChild(list);
             });
-            
-            // Replace the li with our task div
-            li.parentElement.replaceChild(taskDiv, li);
         }
     });
     
