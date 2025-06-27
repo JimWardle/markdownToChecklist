@@ -719,3 +719,15 @@ body {
 .btn-success:hover {
     background: #229954;
 }
+
+.task-item .task-item {
+    margin-left: 20px;
+}
+
+.task-item .task-item .task-item {
+    margin-left: 40px;
+}
+
+.task-item .task-item .task-item .task-item {
+    margin-left: 60px;
+}
