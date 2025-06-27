@@ -95,22 +95,27 @@ function processCustomListSyntax(html, markdown) {
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         
-        // Check for custom list syntax
-        const listMatch = line.match(/^(\s*)(---|--)(-.*?)$/);
-        const singleListMatch = line.match(/^(\s*)(-\s+.*)$/);
+        // Check for custom list syntax - match any number of dashes followed by space and content
+        const listMatch = line.match(/^(\s*)(---?-?)\s+(.+)$/);
         
         if (listMatch) {
-            // Handle -- and --- syntax
             const indent = listMatch[1];
             const dashes = listMatch[2];
-            const content = listMatch[3].substring(1).trim(); // Remove the leading dash and trim
+            const content = listMatch[3].trim();
             
             if (!inList) {
                 result.push('<ul class="custom-list">');
                 inList = true;
             }
             
-            const level = dashes === '--' ? 'level-2' : 'level-3';
+            // Determine level based on number of dashes
+            let level = 'level-1';
+            if (dashes === '--') {
+                level = 'level-2';
+            } else if (dashes === '---') {
+                level = 'level-3';
+            }
+            
             const currentTaskId = `task-${taskId++}`;
             const isCompleted = taskData[currentTaskId] || false;
             const checkedAttr = isCompleted ? 'checked' : '';
@@ -118,27 +123,6 @@ function processCustomListSyntax(html, markdown) {
             
             result.push(`
                 <li class="task-item ${level} ${completedClass}" data-task-id="${currentTaskId}">
-                    <input type="checkbox" class="task-checkbox" ${checkedAttr}>
-                    <span class="task-text">${content}</span>
-                </li>
-            `);
-            
-        } else if (singleListMatch && !line.match(/^(\s*)(---|--)(-.*?)$/)) {
-            // Handle single - syntax (only if not already matched by double/triple)
-            const content = singleListMatch[2].substring(1).trim(); // Remove the leading dash and trim
-            
-            if (!inList) {
-                result.push('<ul class="custom-list">');
-                inList = true;
-            }
-            
-            const currentTaskId = `task-${taskId++}`;
-            const isCompleted = taskData[currentTaskId] || false;
-            const checkedAttr = isCompleted ? 'checked' : '';
-            const completedClass = isCompleted ? 'completed' : '';
-            
-            result.push(`
-                <li class="task-item level-1 ${completedClass}" data-task-id="${currentTaskId}">
                     <input type="checkbox" class="task-checkbox" ${checkedAttr}>
                     <span class="task-text">${content}</span>
                 </li>
@@ -167,6 +151,42 @@ function processCustomListSyntax(html, markdown) {
     }
     
     return result.join('\n');
+}
+
+function parseCheckboxStates(markdown) {
+    const lines = markdown.split('\n');
+    let taskId = 0;
+    
+    for (const line of lines) {
+        // Check for any of our custom list syntaxes with checkbox syntax
+        const listMatch = line.match(/^(\s*)(---?-?)\s*\[([ x])\]\s*(.+)$/i);
+        
+        if (listMatch) {
+            const checkboxState = listMatch[2].toLowerCase();
+            const isCompleted = checkboxState === 'x';
+            const currentTaskId = `task-${taskId}`;
+            
+            // Set the task state
+            taskData[currentTaskId] = isCompleted;
+            taskId++;
+        } else if (line.match(/^(\s*)(---?-?)\s+(.+)$/)) {
+            // Regular list item without checkbox syntax
+            taskId++;
+        }
+    }
+}
+
+function cleanCheckboxSyntax(markdown) {
+    const lines = markdown.split('\n');
+    const cleanedLines = [];
+    
+    for (const line of lines) {
+        // Remove checkbox syntax from our custom list items
+        const cleaned = line.replace(/^(\s*)(---?-?)\s*\[([ x])\]\s*/, '$1$2 ');
+        cleanedLines.push(cleaned);
+    }
+    
+    return cleanedLines.join('\n');
 }
 
 function parseCheckboxStates(markdown) {
