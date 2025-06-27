@@ -17,10 +17,10 @@
 ## Community Submissions (Next 14 Days)
 
 ### Reddit Posts
-- [ ] Submit to r/webdev with title "Built a simple markdown-to-checklist converter"
+- [x] Submit to r/webdev with title "Built a simple markdown-to-checklist converter"
 - [ ] Post to r/productivity about "Turn any markdown into actionable checklists"
-- [ ] Share in r/sysadmin focusing on certificate renewal management angle
-- [ ] Post in r/selfhosted for people who want local tools
+- [x] Share in r/sysadmin focusing on certificate renewal management angle
+- [x] Post in r/selfhosted for people who want local tools
 
 ### Developer Communities
 - [ ] Submit to Hacker News as "Show HN: Convert markdown into interactive checklists"
