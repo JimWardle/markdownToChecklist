@@ -17,7 +17,7 @@ This is a single-file HTML application designed to convert markdown into interac
 
 **Practical over fancy:** The app solves a real problem (managing operational checklists) without unnecessary complexity. Features were added based on actual usage needs, not theoretical requirements.
 
-**Progressive enhancement:** Started as basic markdown-to-HTML conversion, then added interactivity, progress tracking, and UX improvements based on real usage patterns.
+**Progressive enhancement:** Started as basic markdown-to-HTML conversion, then added interactivity, progress tracking, and UX improvements based on real usage patterns. Most recently added custom nested list syntax after discovering standard markdown nesting was unreliable for interactive conversion.
 
 **Deployment simplicity:** Everything in one file that can be dropped anywhere and just work. No build process, no framework dependencies, no configuration.
 
@@ -34,6 +34,12 @@ This is a single-file HTML application designed to convert markdown into interac
 - No framework learning curve for modifications
 - Direct control over all functionality
 - Better performance for this use case
+
+### Why custom nested list syntax?
+- Standard markdown nested lists create complex HTML structures that are difficult to convert reliably to interactive elements
+- DOM manipulation of deeply nested lists caused state management issues
+- Custom syntax (-, --, ---) provides predictable parsing whilst maintaining visual hierarchy
+- Simpler to implement and more robust than recursive DOM processing
 
 ### Why in-memory storage only?
 - Claude.ai artifacts don't support localStorage
@@ -68,7 +74,7 @@ This is a single-file HTML application designed to convert markdown into interac
 container
 ├── header (title/description)
 ├── main-content
-│   ├── input-panel (markdown textarea + controls)
+│   ├── input-panel (markdown textarea + controls + syntax help)
 │   └── output-panel (rendered checklist)
 └── controls (buttons for actions)
 ```
@@ -76,6 +82,9 @@ container
 ### Key JavaScript Functions
 - `updateOutput()` - Core function that processes markdown and renders output
 - `convertToInteractiveChecklist()` - Transforms markdown lists into interactive elements
+- `processCustomListSyntax()` - Handles custom nested syntax (-, --, ---)
+- `parseCheckboxStates()` - Extracts checkbox state from saved markdown
+- `cleanCheckboxSyntax()` - Removes checkbox markers before processing
 - `toggleSection()` - Handles collapsible headers
 - `toggleInputPanel()` - Minimizes/expands input area
 - `updateStats()` - Calculates and displays progress information
@@ -85,8 +94,23 @@ container
 - CSS Grid for main layout, Flexbox for components
 - Subtle animations using CSS transitions
 - Clean, minimal styling that doesn't interfere with functionality
+- Distinct styling for each nesting level (level-1, level-2, level-3)
 
 ## Feature Implementation Patterns
+
+### Custom Nested Lists
+The application uses a custom syntax for nested lists due to limitations in converting standard markdown nested structures to interactive elements:
+
+**Syntax:**
+- `- item` for level 1 (standard styling)
+- `-- item` for level 2 (indented, blue border)
+- `--- item` for level 3 (further indented, purple border)
+
+**Implementation:**
+- Line-by-line parsing using regex `/^(\s*)(-{1,3})\s+(.+)$/`
+- Level detection based on dash count
+- CSS classes applied for visual hierarchy
+- Each level maintains full interactivity
 
 ### Collapsible Sections
 Headers (h2, h3, h4) are made clickable with smooth expand/collapse animations. Implementation wraps content in containers with CSS max-height transitions.
@@ -95,7 +119,7 @@ Headers (h2, h3, h4) are made clickable with smooth expand/collapse animations. 
 Dynamically counts total vs completed checkboxes, calculates percentages, and updates UI elements. Only shows when there are actual tasks present.
 
 ### State Management
-Uses simple JavaScript objects to track checkbox states by ID. No complex state management needed for this use case.
+Uses simple JavaScript objects to track checkbox states by ID. No complex state management needed for this use case. The custom list syntax simplifies state tracking compared to nested DOM structures.
 
 ### Responsive Behavior
 Input panel switches from horizontal split to vertical stack on mobile. Collapsible headers adjust their rotation behavior based on screen size.
@@ -116,6 +140,7 @@ Input panel switches from horizontal split to vertical stack on mobile. Collapsi
 - Minimal DOM manipulation during updates
 - CSS transitions instead of JavaScript animations
 - Efficient markdown parsing with marked.js
+- Custom list processing avoids expensive recursive DOM operations
 - No unnecessary re-renders
 
 ## Styling Guidelines
@@ -126,10 +151,12 @@ Input panel switches from horizontal split to vertical stack on mobile. Collapsi
 - Clear hierarchy with appropriate typography
 - Accessible color contrasts
 - Smooth but not distracting animations
+- Distinct visual treatment for each nesting level
 
 ### Color Palette
-- Primary blue (#3498db) for interactive elements
+- Primary blue (#3498db) for interactive elements and level-2 items
 - Success green (#27ae60) for completed items
+- Purple (#9b59b6) for level-3 items
 - Subtle grays for backgrounds and borders
 - High contrast for text readability
 
@@ -146,18 +173,22 @@ Input panel switches from horizontal split to vertical stack on mobile. Collapsi
 2. Ensure it works without external dependencies
 3. Test in both desktop and mobile layouts
 4. Maintain backward compatibility with existing markdown
+5. Consider impact on custom list syntax processing
 
 ### Code Style
 - Use meaningful variable names
 - Comment complex logic but avoid obvious comments
 - Prefer functional approaches where appropriate
 - Keep functions focused and single-purpose
+- Document regex patterns for list processing
 
 ### Testing Approach
 - Manual testing across different markdown structures
 - Verify responsive behavior at different screen sizes
 - Test interaction patterns (clicking, collapsing, etc.)
 - Validate with real-world content (operational reports)
+- Test custom nested syntax at all levels
+- Verify save/restore functionality with nested items
 
 ## Known Limitations
 
@@ -165,12 +196,19 @@ Input panel switches from horizontal split to vertical stack on mobile. Collapsi
 - No persistent storage (session-based usage)
 - No real-time collaboration features
 - No advanced markdown features (tables, code highlighting)
-- No export functionality (copy-paste workflow instead)
+- Limited to three levels of nesting (-, --, ---)
+- Custom syntax instead of standard markdown nesting
 
 ### Technical Constraints
 - Limited to marked.js markdown parsing capabilities
 - CSS-only animations (no complex JavaScript animations)
 - Single-file deployment model limits scalability
+- Custom list processing may not handle edge cases in mixed syntax
+
+### Current Issues
+- Custom nested syntax parsing may occasionally miss edge cases with mixed formatting
+- Visual hierarchy could be improved with better spacing
+- No syntax validation for malformed nested structures
 
 ## Future Considerations
 
@@ -179,6 +217,8 @@ Input panel switches from horizontal split to vertical stack on mobile. Collapsi
 - Custom styling themes
 - Advanced filtering/sorting of tasks
 - Integration with external task management systems
+- Extended nesting levels if needed
+- Better syntax validation and error handling
 
 ### Architectural Decisions
 Any major changes should consider:
@@ -186,6 +226,7 @@ Any major changes should consider:
 - Preserving simplicity of use
 - Keeping browser compatibility
 - Avoiding external dependencies
+- Compatibility with existing custom syntax
 
 ## Maintenance Guidelines
 
@@ -194,11 +235,19 @@ Any major changes should consider:
 - Test with new browser versions
 - Validate HTML/CSS standards compliance
 - Review accessibility features
+- Test custom syntax with various inputs
 
 ### Bug Fixes
 - Prioritize issues that break core functionality
-- Test fixes across different markdown formats
+- Test fixes across different markdown formats including custom syntax
 - Ensure mobile compatibility is maintained
 - Verify performance impact of changes
+- Test save/restore functionality thoroughly
 
-This application represents a practical solution to a real problem, built with constraints that ensure it remains simple, deployable, and maintainable.
+### Custom Syntax Considerations
+- Any changes to list processing should maintain backward compatibility
+- Test with mixed standard/custom syntax
+- Ensure visual hierarchy remains clear
+- Validate state management with nested items
+
+This application represents a practical solution to a real problem, built with constraints that ensure it remains simple, deployable, and maintainable. The custom nested syntax was a pragmatic solution to technical limitations whilst maintaining user-friendly functionality.

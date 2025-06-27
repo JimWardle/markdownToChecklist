@@ -18,6 +18,7 @@ Particularly useful for:
 ## Features
 
 - **Interactive checklists** - Any markdown list item becomes a tickable checkbox
+- **Nested task support** - Use custom syntax for multi-level task hierarchies (see below)
 - **Save Progress** - Export your current state as markdown with completed items marked as `[x]` to resume later. When you paste the saved markdown back in, the tool automatically detects and restores your progress
 - **Sticky controls** - Essential buttons (Save Progress, Clear All, etc.) are always accessible at the bottom of the screen
 - **Collapsible sections** - Click headers to collapse/expand sections for better focus on what matters right now
@@ -27,28 +28,54 @@ Particularly useful for:
 - **Session persistence** - Your progress survives page refreshes until you close the browser
 - **Mobile friendly** - Works on phones and tablets for operational tasks on the go
 
+## Nested List Syntax
+
+The tool supports custom nested list syntax for better task organization:
+
+```markdown
+# Certificate Renewals
+
+## Critical - Next 7 Days
+- Web servers (main level)
+-- api.example.com (expires 2025-07-01) (second level)
+-- www.example.com (expires 2025-07-02)
+--- Check SSL renewal procedure (third level)
+--- Contact hosting provider
+- Load balancers
+-- lb1.internal (expires 2025-07-03)
+-- lb2.internal (expires 2025-07-03)
+```
+
+**Syntax:**
+- Single dash (`-`) for top-level items
+- Double dash (`--`) for second-level items  
+- Triple dash (`---`) for third-level items
+
+Each level gets distinct visual styling and proper indentation to maintain hierarchy whilst allowing every item to be an interactive checkbox.
+
 ## How to use
 
 1. Paste your markdown content in the left panel
 2. Click "Checklist" mode to see interactive checkboxes
-3. Minimize the input panel to focus entirely on your tasks
-4. Tick off items as you complete them
-5. Use collapsible headers to hide sections you're not working on
-6. Click "Save Progress" to export your current state as markdown for resuming later
+3. Use the custom nested syntax (-, --, ---) for hierarchical tasks
+4. Minimize the input panel to focus entirely on your tasks
+5. Tick off items as you complete them
+6. Use collapsible headers to hide sections you're not working on
+7. Click "Save Progress" to export your current state as markdown for resuming later
 
-The app handles standard markdown formatting whilst converting any list items (starting with `-`, `*`, or `+`) into interactive checkboxes. The Save Progress feature converts completed items to `[x]` format, and when you paste this saved markdown back in, the tool automatically detects and restores your exact progress state.
+The app handles standard markdown formatting whilst converting any list items into interactive checkboxes. The Save Progress feature converts completed items to `[x]` format, and when you paste this saved markdown back in, the tool automatically detects and restores your exact progress state.
 
 ## File Structure
 
 ```
 /
-├── index.html          # Main application with sticky controls
+├── index.html          # Main application with nested list support
 ├── about.html          # About page with Buy Me a Coffee support option
 ├── examples.html       # Real-world usage examples
 ├── css/
-│   └── styles.css      # All styling including responsive footer
+│   └── styles.css      # All styling including nested list levels
 ├── js/
-│   └── app.js          # Application logic with progress parsing
+│   └── app.js          # Application logic with custom list processing
 └── README.md           # This file
 ```
 
@@ -58,6 +85,7 @@ Built as a collection of static files using:
 - Vanilla JavaScript for functionality
 - [marked.js](https://marked.js.org/) for markdown parsing
 - CSS for styling and animations
+- Custom parsing for nested list syntax
 - No build process or frameworks required
 
 All state is kept in memory during the session. No data is transmitted anywhere - everything runs locally in your browser for complete privacy.
@@ -73,6 +101,8 @@ All state is kept in memory during the session. No data is transmitted anywhere 
 This started as a quick solution to make Teams bot certificate expiry reports more manageable. The problem was having long markdown dumps that were impossible to work through systematically in text editors.
 
 The collapsible headers and minimize functionality came from real usage - when you're working through operational checklists, you need to focus on specific priority levels without distraction from lower-priority items.
+
+The custom nested syntax was added after discovering that standard markdown nested lists don't convert reliably to interactive elements. The simple dash-based approach provides predictable hierarchy whilst maintaining the ability to tick off individual items at any level.
 
 Most existing solutions were either too complex (full project management tools) or missed the point entirely (visual checklist designers for creating new content rather than working with existing operational data).
 
