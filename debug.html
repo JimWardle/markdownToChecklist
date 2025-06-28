@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Debug Test</title>
+    <style>
+        [data-theme="light"] {
+            background: white;
+            color: black;
+        }
+        [data-theme="dark"] {
+            background: #1a1a1a;
+            color: white;
+        }
+        .theme-toggle {
+            padding: 10px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="testToggleTheme()">
+        <span class="theme-toggle-icon">🌙</span>
+        <span class="theme-toggle-text">Dark</span>
+    </button>
+    
+    <p>This is a test page to check if theme switching works.</p>
+    
+    <script>
+        function testToggleTheme() {
+            console.log('Toggle clicked');
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            console.log('Current theme:', currentTheme);
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            console.log('New theme:', newTheme);
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            const icon = document.querySelector('.theme-toggle-icon');
+            const text = document.querySelector('.theme-toggle-text');
+            
+            if (newTheme === 'dark') {
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+            }
+            
+            console.log('Theme switched to:', newTheme);
+        }
+        
+        // Initialize
+        document.documentElement.setAttribute('data-theme', 'light');
+    </script>
+</body>
+</html>
