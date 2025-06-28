@@ -936,26 +936,32 @@ body {
 .syntax-level {
     display: flex;
     align-items: center;
-    margin: 6px 0;
+    margin: 8px 0;
     justify-content: space-between;
+    padding: 4px 0;
 }
 
 .syntax-level code {
     background: var(--color-bg-syntax-code);
-    padding: 4px 8px;
-    border-radius: 3px;
+    padding: 6px 10px;
+    border-radius: 4px;
     font-family: 'Consolas', 'Monaco', monospace;
     font-size: 0.85rem;
     color: var(--color-text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
+    flex: 1;
+    margin-right: 12px;
 }
 
 .level-indicator {
     font-size: 0.75rem;
-    padding: 2px 6px;
-    border-radius: 3px;
+    padding: 3px 8px;
+    border-radius: 12px;
     font-weight: 500;
-    margin-left: 10px;
+    white-space: nowrap;
+    min-width: 60px;
+    text-align: center;
+    transition: all 0.3s ease;
 }
 
 .level-1-indicator {
@@ -982,4 +988,8 @@ body {
     margin: 0;
     line-height: 1.4;
     transition: color 0.3s ease;
+    padding: 8px 12px;
+    background: var(--color-bg-level2);
+    border-radius: 4px;
+    border-left: 3px solid var(--color-accent-primary);
 }
