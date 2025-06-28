@@ -3,58 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theme Debug Test</title>
-    <style>
-        [data-theme="light"] {
-            background: white;
-            color: black;
-        }
-        [data-theme="dark"] {
-            background: #1a1a1a;
-            color: white;
-        }
-        .theme-toggle {
-            padding: 10px;
-            margin: 20px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-        }
-    </style>
+    <title>Minimal Theme Test</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <button class="theme-toggle" onclick="testToggleTheme()">
-        <span class="theme-toggle-icon">🌙</span>
-        <span class="theme-toggle-text">Dark</span>
-    </button>
-    
-    <p>This is a test page to check if theme switching works.</p>
-    
+    <div class="container">
+        <div class="header">
+            <div class="nav">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <span class="theme-toggle-text">Dark</span>
+                </button>
+            </div>
+            <h1>Minimal Theme Test</h1>
+            <p>Testing theme toggle with minimal setup</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="input-panel">
+                <div class="panel-header">
+                    <div class="panel-title">Test Panel</div>
+                </div>
+                <div class="textarea-container">
+                    <textarea id="markdownInput" placeholder="Test content..."></textarea>
+                </div>
+            </div>
+            
+            <div class="output-panel">
+                <div class="panel-header">
+                    <div class="panel-title">Output Panel</div>
+                </div>
+                <div class="output-container">
+                    <div id="output">
+                        <p>This is a test to see if theme switching works with your CSS and a minimal version of the app structure.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Only load the essential theme functions -->
     <script>
-        function testToggleTheme() {
-            console.log('Toggle clicked');
+        function initializeTheme() {
+            const savedTheme = sessionStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeToggleButton(savedTheme);
+        }
+
+        function toggleTheme() {
+            console.log('toggleTheme called');
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            console.log('Current theme:', currentTheme);
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            console.log('New theme:', newTheme);
+            
+            console.log('Current theme:', currentTheme, 'New theme:', newTheme);
             
             document.documentElement.setAttribute('data-theme', newTheme);
-            
-            const icon = document.querySelector('.theme-toggle-icon');
-            const text = document.querySelector('.theme-toggle-text');
-            
-            if (newTheme === 'dark') {
-                icon.textContent = '☀️';
-                text.textContent = 'Light';
-            } else {
-                icon.textContent = '🌙';
-                text.textContent = 'Dark';
-            }
-            
-            console.log('Theme switched to:', newTheme);
+            sessionStorage.setItem('theme', newTheme);
+            updateThemeToggleButton(newTheme);
         }
-        
-        // Initialize
-        document.documentElement.setAttribute('data-theme', 'light');
+
+        function updateThemeToggleButton(theme) {
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (themeToggle) {
+                const icon = themeToggle.querySelector('.theme-toggle-icon');
+                const text = themeToggle.querySelector('.theme-toggle-text');
+                
+                if (theme === 'dark') {
+                    icon.textContent = '☀️';
+                    text.textContent = 'Light';
+                } else {
+                    icon.textContent = '🌙';
+                    text.textContent = 'Dark';
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded fired');
+            initializeTheme();
+        });
     </script>
 </body>
 </html>

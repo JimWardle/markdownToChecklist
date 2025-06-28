@@ -24,6 +24,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="js/app.js"></script>
 </head>
 <body>
     <div class="container">
@@ -36,6 +37,7 @@
                     <span class="theme-toggle-icon">🌙</span>
                     <span class="theme-toggle-text">Dark</span>
                 </button>
+                <button onclick="console.log('toggleTheme exists:', typeof toggleTheme); console.log('initializeTheme exists:', typeof initializeTheme);">Debug Theme Functions</button>
             </div>
             <h1>Markdown Checklist</h1>
             <p>Turn your markdown into an interactive task list</p>
@@ -147,6 +149,6 @@ Example:
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    
 </body>
 </html>
