@@ -24,7 +24,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
-    <script src="js/app.js"></script>
 </head>
 <body>
     <div class="container">
@@ -33,11 +32,10 @@
                 <a href="index.html" class="nav-link active">Tool</a>
                 <a href="about.html" class="nav-link">About</a>
                 <a href="examples.html" class="nav-link">Examples</a>
-                <button class="theme-toggle" onclick="toggleTheme()">
+                <button class="theme-toggle">
                     <span class="theme-toggle-icon">🌙</span>
                     <span class="theme-toggle-text">Dark</span>
                 </button>
-                <button onclick="console.log('toggleTheme exists:', typeof toggleTheme); console.log('initializeTheme exists:', typeof initializeTheme);">Debug Theme Functions</button>
             </div>
             <h1>Markdown Checklist</h1>
             <p>Turn your markdown into an interactive task list</p>
@@ -149,6 +147,6 @@ Example:
         </div>
     </div>
 
-    
+    <script src="js/app.js"></script>
 </body>
 </html>

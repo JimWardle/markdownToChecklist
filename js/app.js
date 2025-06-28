@@ -1,17 +1,26 @@
+console.log('=== app.js starting to load ===');
+
 let currentMode = 'checklist';
 let taskData = {};
 
+console.log('=== Variables declared ===');
+
 // Dark mode functionality
 function initializeTheme() {
+    console.log('initializeTheme called');
     // Check for saved theme preference or default to light
     const savedTheme = sessionStorage.getItem('theme') || 'light';
+    console.log('savedTheme:', savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeToggleButton(savedTheme);
 }
 
 function toggleTheme() {
+    console.log('toggleTheme called');
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    console.log('Theme change:', currentTheme, '->', newTheme);
     
     document.documentElement.setAttribute('data-theme', newTheme);
     sessionStorage.setItem('theme', newTheme);
@@ -19,10 +28,15 @@ function toggleTheme() {
 }
 
 function updateThemeToggleButton(theme) {
+    console.log('updateThemeToggleButton called with:', theme);
     const themeToggle = document.querySelector('.theme-toggle');
+    console.log('themeToggle element found:', !!themeToggle);
+    
     if (themeToggle) {
         const icon = themeToggle.querySelector('.theme-toggle-icon');
         const text = themeToggle.querySelector('.theme-toggle-text');
+        
+        console.log('icon found:', !!icon, 'text found:', !!text);
         
         if (theme === 'dark') {
             icon.textContent = '☀️';
@@ -33,6 +47,10 @@ function updateThemeToggleButton(theme) {
         }
     }
 }
+
+console.log('=== Theme functions defined ===');
+console.log('toggleTheme type:', typeof toggleTheme);
+console.log('initializeTheme type:', typeof initializeTheme);
 
 function toggleSyntaxHelp() {
     const content = document.getElementById('syntaxContent');
@@ -49,6 +67,8 @@ function toggleSyntaxHelp() {
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('=== DOMContentLoaded event fired ===');
+    
     // Initialize theme first
     initializeTheme();
     
@@ -73,9 +93,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up theme toggle
     const themeToggle = document.querySelector('.theme-toggle');
+    console.log('Setting up theme toggle, element found:', !!themeToggle);
     if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
+        themeToggle.addEventListener('click', function() {
+            console.log('Theme toggle clicked via addEventListener');
+            toggleTheme();
+        });
+        console.log('Theme toggle event listener added');
     }
+    
+    console.log('=== DOMContentLoaded setup complete ===');
 });
 
 function updateOutput() {
@@ -528,3 +555,6 @@ function clearCompleted() {
         saveSessionProgress();
     }
 }
+
+console.log('=== app.js loading complete ===');
+console.log('Final function check - toggleTheme:', typeof toggleTheme);
