@@ -1,0 +1,15 @@
+{
+  "name": "markdowntochecklist",
+  "version": "1.0.0",
+  "description": "npm for markdownlist",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "stylelint": "^16.21.1",
+    "stylelint-config-standard": "^38.0.0"
+  }
+}
