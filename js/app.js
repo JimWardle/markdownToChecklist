@@ -408,8 +408,8 @@ function convertToProgressMarkdown(originalMarkdown) {
     let taskId = 0;
     
     for (const line of lines) {
-        // Check if this line is a list item (with or without existing checkbox syntax)
-        const listMatch = line.match(/^(\s*)([-*+]\s*)(?:\[([ x])\]\s*)?(.+)$/);
+        // Check if this line is a custom list item (-, --, or ---) with optional checkbox syntax
+        const listMatch = line.match(/^(\s*)(-{1,3})\s*(?:\[([ x])\]\s*)?(.+)$/);
         
         if (listMatch) {
             const indent = listMatch[1];
@@ -420,7 +420,8 @@ function convertToProgressMarkdown(originalMarkdown) {
             
             // Convert to checkbox format
             const checkbox = isCompleted ? '[x]' : '[ ]';
-            result.push(`${indent}- ${checkbox} ${content}`);
+            // Preserve the original dash count when writing back the list line
+            result.push(`${indent}${bullet} ${checkbox} ${content}`);
         } else {
             // Keep non-list lines as they are
             result.push(line);
