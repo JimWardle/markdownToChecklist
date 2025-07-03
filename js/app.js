@@ -121,9 +121,19 @@ function convertToInteractiveChecklist(markdown) {
     // Clean the checkbox syntax from the markdown before processing
     const cleanedMarkdown = cleanCheckboxSyntax(markdown);
     
-    // Parse markdown and convert list items to interactive checkboxes
-    let html = marked.parse(cleanedMarkdown);
-    let taskId = 0;
+    // Split into table sections and non-table sections
+    const sections = splitMarkdownSections(cleanedMarkdown);
+    let html = '';
+    
+    for (const section of sections) {
+        if (section.isTable) {
+            // Let marked.js handle tables normally
+            html += marked.parse(section.content);
+        } else {
+            // Process custom lists for non-table content
+            html += processCustomListSyntax('', section.content);
+        }
+    }
     
     // Make headers collapsible (h2, h3, h4)
     html = html.replace(/<(h[2-4])([^>]*)>(.*?)<\/h[2-4]>/g, function(match, tag, attrs, content) {
@@ -145,13 +155,54 @@ function convertToInteractiveChecklist(markdown) {
     // Add final closing div
     html += '</div>';
     
-    // Handle custom nested syntax (-, --, ---)
-    // First, replace standard markdown lists with our custom format
-    html = processCustomListSyntax(html, cleanedMarkdown);
-    
     return html;
 }
 
+function splitMarkdownSections(markdown) {
+    const lines = markdown.split('\n');
+    const sections = [];
+    let currentSection = { content: [], isTable: false };
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        
+        // Check if this line looks like a table row
+        const isTableLine = line.includes('|') && (line.match(/\|/g) || []).length >= 2;
+        
+        if (isTableLine && !currentSection.isTable) {
+            // Starting a new table - save current section if it has content
+            if (currentSection.content.length > 0) {
+                sections.push({
+                    content: currentSection.content.join('\n'),
+                    isTable: false
+                });
+            }
+            // Start new table section
+            currentSection = { content: [line], isTable: true };
+        } else if (!isTableLine && currentSection.isTable) {
+            // Ending a table - save table section
+            sections.push({
+                content: currentSection.content.join('\n'),
+                isTable: true
+            });
+            // Start new non-table section
+            currentSection = { content: [line], isTable: false };
+        } else {
+            // Continue current section
+            currentSection.content.push(line);
+        }
+    }
+    
+    // Add final section
+    if (currentSection.content.length > 0) {
+        sections.push({
+            content: currentSection.content.join('\n'),
+            isTable: currentSection.isTable
+        });
+    }
+    
+    return sections;
+}
 function processCustomListSyntax(html, markdown) {
     const lines = markdown.split('\n');
     let result = [];
